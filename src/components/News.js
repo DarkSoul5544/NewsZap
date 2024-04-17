@@ -40,35 +40,36 @@ const News = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4 text-center my-6">NewsZap:Taste  the News</h1> 
+      
       <ul className="nav nav-pills mb-4 d-flex justify-content-between">
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('general')}>General</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('general')}>General</button>
         </li>
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('entertainment')}>Entertainment</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('entertainment')}>Entertainment</button>
         </li>
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('business')}>Business</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('business')}>Business</button>
         </li>
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('health')}>Health</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('health')}>Health</button>
         </li>
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('science')}>Science</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('science')}>Science</button>
         </li>
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('sports')}>Sports</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('sports')}>Sports</button>
         </li>
         <li className="nav-item">
-          <button type="button" className="btn btn-primary" onClick={() => handleCategoryChange('technology')}>Technology</button>
+          <button type="button" className="btn btn-dark" onClick={() => handleCategoryChange('technology')}>Technology</button>
         </li>
       </ul>
+      <h1 className="mb-4 text-center my-6">NewsZap:Taste  the News</h1> 
       <div className="row">
         {articles.map((article, index) => (
           <div key={index} className="col-md-4 mb-4">
             <div className="card">
-              <img src={article.urlToImage || 'https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480'} className="card-img-top" alt={article.title} onError={handleImageError} />
+              <img src={article.urlToImage || 'https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480'} className="card-img-top" alt={article.title} onError={handleImageError} style={{width: '414px', height: '250px'}} />
               <div className="card-body">
                 <h5 className="card-title">{article.title}</h5>
                 <p className="card-text">{article.description}</p>
@@ -79,7 +80,7 @@ const News = () => {
         ))}
       </div>
       <div className='container d-flex justify-content-between'>
-        <button type="button" className="btn btn-dark my-4" onClick={handlePrevClick}>&larr; Previous</button>
+        <button type="button" className="btn btn-dark my-4" onClick={handlePrevClick} disabled={page === 1}>&larr; Previous</button>
         <button type="button" className="btn btn-dark my-4" onClick={handleNextClick}>Next &rarr;</button>
       </div>
     </div>
