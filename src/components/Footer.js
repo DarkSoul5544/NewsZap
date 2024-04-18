@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default function Footer() {
   return (
@@ -12,15 +12,36 @@ export default function Footer() {
           </div>
           <div className="col-md-5 d-flex justify-content-end ">
             <ul className="list-unstyled ">
-            <h5>Connect with us</h5>
-              <li><a href="https://www.facebook.com/" className="text-light"><i className="fab fa-facebook-f me-2"></i>Facebook</a></li>
-              <li><a href="https://twitter.com/darksoul_gg" className="text-light"><i className="fab fa-twitter me-2"></i>Twitter</a></li>
-              <li><a href="https://www.instagram.com/vishalgupta.222/" className="text-light"><i className="fab fa-instagram me-2"></i>Instagram</a></li>
-              <li><a href="https://www.linkedin.com/in/vishalgupta9" className="text-light"><i className="fab fa-linkedin-in me-2"></i>LinkedIn</a></li>
+              <h5>Connect with us</h5>
+
+              <li>
+                <a
+                  href="https://twitter.com/darksoul_gg"
+                  className="text-light"
+                >
+                  <i className="fa fa-twitter me-2"></i>Twitter
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/vishalgupta.222/"
+                  className="text-light"
+                >
+                  <i className="fa fa-instagram me-2"></i>Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/vishalgupta9"
+                  className="text-light"
+                >
+                  <i className="fa fa-linkedin me-2"></i>LinkedIn
+                </a>
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

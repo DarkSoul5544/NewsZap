@@ -10,7 +10,7 @@ function App() {
   const [showFooter, setShowFooter] = useState(false);
 
   return (
-    <div className="App">
+    <div className="App bg-secondary">
       <Navbar/>
       <Router>
         <Routes>
