@@ -2,16 +2,25 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <>
-    <div>
-  <div className="card-body bg-dark">
-    <blockquote className="blockquote mb-0 text-center bg-dark text-light my-3">
-        <p> <h2>NewsZap</h2></p>
-      <p className='my=3'>Made By Vishal Gupta </p>
-      <footer className="blockquote-footer text-center text-light"><cite title="Source Title" className="mt-2 mb-5">All Rights Reserved </cite></footer>
-    </blockquote>
-  </div>
-</div>
-    </>
+    <div className="bg-dark text-light text-center py-3 justify-content-center">
+      <div className="container justify-content-center">
+        <div className="row justify-content-center">
+          <div className="col-md-4 ">
+            <h5>NewsZap</h5>
+            <p>Made By Vishal Gupta</p>
+            <p>All Rights Reserved</p>
+          </div>
+          <div className="col-md-5 d-flex justify-content-end ">
+            <ul className="list-unstyled ">
+            <h5>Connect with us</h5>
+              <li><a href="https://www.facebook.com/" className="text-light"><i className="fab fa-facebook-f me-2"></i>Facebook</a></li>
+              <li><a href="https://twitter.com/darksoul_gg" className="text-light"><i className="fab fa-twitter me-2"></i>Twitter</a></li>
+              <li><a href="https://www.instagram.com/vishalgupta.222/" className="text-light"><i className="fab fa-instagram me-2"></i>Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/vishalgupta9" className="text-light"><i className="fab fa-linkedin-in me-2"></i>LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
