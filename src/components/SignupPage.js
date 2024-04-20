@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
+
 const SignupPage = () => {
   return (
     <div className="container mt-4">
@@ -87,4 +89,7 @@ const SignupPage = () => {
   );
 };
 
+
+
 export default SignupPage;
+
