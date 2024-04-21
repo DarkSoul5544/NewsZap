@@ -90,23 +90,23 @@ export default function Footer() {
                 className="mb-4 mt-0 d-inline-block mx-auto"
                 style={{ width: 60, backgroundColor: "#7c4dff", height: 2 }}
               />
-              <p>
+              {/* <p>
                 <a href="/" className="text-white">
                   Your Account
                 </a>
-              </p>
+              </p> */}
               <p>
-                <a href="/" className="text-white">
+                <a href="/AboutUs" className="text-white">
                   About US
                 </a>
               </p>
               <p>
-                <a href="/" className="text-white">
+                <a href="/PrivacyPolicy" className="text-white">
                   Privacy Policy
                 </a>
               </p>
               <p>
-                <a href="/" className="text-white">
+                <a href="/Help" className="text-white">
                   Help
                 </a>
               </p>

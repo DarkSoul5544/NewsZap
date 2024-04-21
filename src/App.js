@@ -5,20 +5,28 @@ import Footer from './components/Footer';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
+import PrivacyPolicy from  "./components/PrivacyPolicy";
+import AboutUs from './components/AboutUs';
+import Help from './components/Help';
 
 
 function App() {
-  const [showFooter, setShowFooter] = useState(false);
+  const [showFooter, setShowFooter] = useState(true);
   const user = null;
+  const excludePages = ['/login', '/signup'];
+
   return (
     <div className="App"
     style={{ backgroundColor: "#adb5bd" }}>
       <Navbar user={user}/>
       <Router>
         <Routes>
-          <Route path="/" element={<NewsWrapper showFooter={setShowFooter} />} />
+          <Route path="/" element={<NewsWrapper showFooter={setShowFooter} excludePages={excludePages} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/Help" element={<Help />} />
         </Routes>
       </Router>
       {showFooter && <Footer/>}
@@ -26,18 +34,17 @@ function App() {
   );
 }
 
-function NewsWrapper({ showFooter }) {
+function NewsWrapper({ showFooter, excludePages }) {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/') {
+    if (!excludePages.includes(location.pathname)) {
       showFooter(true);
     } else {
       showFooter(false);
     }
-  }, [location, showFooter]);
+  }, [location, showFooter, excludePages]);
 
   return <News />;
 }
-
 export default App;

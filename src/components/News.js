@@ -627,7 +627,7 @@ const News = () => {
                     <p className="card-text">{article.description}</p>
                     <a
                       href={article.url}
-                      target="_blank"
+                      // target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-primary"
                     >
