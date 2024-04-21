@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "./loading.gif";
 
 const News = () => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("general");
   const [country, setCountry] = useState("in");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
@@ -17,6 +20,7 @@ const News = () => {
       } catch (error) {
         console.error("Error fetching news: ", error);
       }
+      setLoading(false);
     };
 
     fetchData();
@@ -47,7 +51,7 @@ const News = () => {
   };
 
   return (
-    <div className="bg-secondary">
+    <div className="" style={{ backgroundColor: "#adb5bd" }}>
       <div className="container mt-4 ">
         <ul className="nav nav-pills mb-4 d-flex justify-content-between">
           <li className="nav-item">
@@ -364,6 +368,14 @@ const News = () => {
               <li>
                 <button
                   className="dropdown-item"
+                  onClick={() => handleCountryChange("lu")}
+                >
+                  Luxembourg
+                </button>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item"
                   onClick={() => handleCountryChange("lv")}
                 >
                   Latvia
@@ -516,6 +528,22 @@ const News = () => {
               <li>
                 <button
                   className="dropdown-item"
+                  onClick={() => handleCountryChange("es")}
+                >
+                  Spain
+                </button>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() => handleCountryChange("sv")}
+                >
+                  Sweden
+                </button>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item"
                   onClick={() => handleCountryChange("th")}
                 >
                   Thailand
@@ -572,58 +600,61 @@ const News = () => {
             </ul>
           </div>
         </ul>
-
-        <h1 className="mb-4 text-center my-6">NewsZap:Taste the News</h1>
         <div className="row">
-          {articles.map((article, index) => (
-            <div key={index} className="col-md-4 mb-4">
-              <div className="card">
-                <img
-                  src={
-                    article.urlToImage ||
-                    "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
-                  }
-                  className="card-img-top"
-                  alt={article.title}
-                  onError={handleImageError}
-                  style={{ width: "414px", height: "250px" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{article.title}</h5>
-                  <p className="card-text">
-                    {article.description
-                      ? article.description.slice(0, 120) +
-                        (article.description.length > 120 ? "..." : "")
-                      : 'No description available. Click "Read More" to view the full article.'}
-                  </p>{" "}
-                  <a
-                    href={article.url}
-                    className="btn btn-primary"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Read More
-                  </a>
+          {loading ? (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "80vh" }}
+            >
+              <img src={Loading} alt="loading" />
+            </div>
+          ) : (
+            articles.map((article, index) => (
+              <div className="col-md-4" key={index}>
+                <div className="card mb-4">
+                  <img
+                    src={
+                      article.urlToImage ||
+                      "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
+                    }
+                    className="card-img-top"
+                    alt={article.title}
+                    onError={handleImageError}
+                    style={{ width: "414px", height: "250px" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{article.title}</h5>
+                    <p className="card-text">{article.description}</p>
+                    <a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                    >
+                      Read More
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
-        <div className="container d-flex justify-content-between">
+        <div className="d-flex justify-content-between my-4">
           <button
             type="button"
-            className="btn btn-dark my-4"
+            className="btn btn-dark"
             onClick={handlePrevClick}
             disabled={page === 1}
           >
-            &larr; Previous
+            Previous
           </button>
           <button
             type="button"
-            className="btn btn-dark my-4"
+            className="btn btn-dark"
             onClick={handleNextClick}
+            disabled={articles.length < 6}
           >
-            Next &rarr;
+            Next
           </button>
         </div>
       </div>

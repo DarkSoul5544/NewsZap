@@ -4,7 +4,8 @@ import myImage from "./logo.png"
 export default function Navbar() {
   return (
     <>
-   <nav className="navbar navbar-expand-lg bg-dark ">
+   <nav className="navbar navbar-expand-lg "
+   style={{ backgroundColor: "black" }}>
   <div className="container-fluid">
   <img src={myImage} width="80" height="80" alt="logo" />
     <a className="navbar-brand text-light mx-3 " href="/">NewsZap</a>
@@ -21,6 +22,7 @@ export default function Navbar() {
         </li>
     </div>
   </div>
+
 </nav>
     </>
   )

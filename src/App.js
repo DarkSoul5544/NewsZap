@@ -6,12 +6,14 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 
+
 function App() {
   const [showFooter, setShowFooter] = useState(false);
-
+  const user = null;
   return (
-    <div className="App bg-secondary">
-      <Navbar/>
+    <div className="App"
+    style={{ backgroundColor: "#adb5bd" }}>
+      <Navbar user={user}/>
       <Router>
         <Routes>
           <Route path="/" element={<NewsWrapper showFooter={setShowFooter} />} />
