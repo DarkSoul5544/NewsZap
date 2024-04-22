@@ -12,7 +12,7 @@ export default function Footer() {
     >
       <section
         className="d-flex justify-content-between p-4"
-        style={{ backgroundColor: "blue" }}
+        style={{ backgroundColor: "#50727B" }}
       >
       
         <div className="me-5">

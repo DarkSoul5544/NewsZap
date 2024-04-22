@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "./loading.gif";
+import Loading from "./uploads/loading.gif";
 
 const News = () => {
   const [articles, setArticles] = useState([]);
@@ -51,73 +51,78 @@ const News = () => {
   };
 
   return (
-    <div className="" style={{ backgroundColor: "#adb5bd" }}>
-      <div className="container mt-4 ">
-        <ul className="nav nav-pills mb-4 d-flex justify-content-between">
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("general")}
-            >
-              General
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("entertainment")}
-            >
-              Entertainment
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("business")}
-            >
-              Business
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("health")}
-            >
-              Health
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("science")}
-            >
-              Science
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("sports")}
-            >
-              Sports
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={() => handleCategoryChange("technology")}
-            >
-              Technology
-            </button>
-          </li>
-          <div className="dropdown">
+    <div className="" style={{ backgroundColor: "#BED7DC" }}>
+<div style={{ display: "grid", gridTemplateColumns: "200px 1fr" }}>
+  <div className="nav-container mx-3 my-3" style={{ width: "200px", height: "100vh" }}>
+      <ul className="list-unstyled my-5 mx-2 fs-1">
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("general")}
+      >
+        General
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("entertainment")}
+      >
+        Entertainment
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("business")}
+      >
+        Business
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("health")}
+      >
+        Health
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("science")}
+      >
+        Science
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("sports")}
+      >
+        Sports
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("technology")}
+      >
+        Technology
+      </button>
+    </li>
+  </ul>
+  </div>
+  <div className="container mt-4" style={{ flex: 1 }}>
+  <ul>
+          <div className="dropdown d-flex justify-content-end">
             <button
               className="btn btn-dark dropdown-toggle"
               type="button"
@@ -610,26 +615,34 @@ const News = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-md-4" key={index}>
-                <div className="card mb-4">
+              <div className="col-md-4 " key={index}>
+                <div
+                  className="card mb-4"
+                  style={{ width: "25rem", height: "30rem" }}
+                >
                   <img
                     src={
                       article.urlToImage ||
                       "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
                     }
-                    className="card-img-top"
+                    className="card-img-top "
                     alt={article.title}
                     onError={handleImageError}
-                    style={{ width: "414px", height: "250px" }}
+                    style={{ height: "13rem" }}
                   />
-                  <div className="card-body">
+                  <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{article.title}</h5>
-                    <p className="card-text">{article.description}</p>
+                    <p className="card-text">
+                      {article.description
+                        ? article.description.length > 130
+                          ? article.description.slice(0, 130) + "..."
+                          : article.description
+                        : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
+                    </p>
                     <a
                       href={article.url}
-                      // target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-primary"
+                       rel="noopener noreferrer"
+                      className="btn btn-primary mt-auto"
                     >
                       Read More
                     </a>
@@ -658,6 +671,7 @@ const News = () => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

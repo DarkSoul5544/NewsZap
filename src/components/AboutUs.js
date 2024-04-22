@@ -2,8 +2,7 @@ import React from "react";
 
 export default function AboutUs() {
   return (
-    <div className="container mt-5"
-    style={{ backgroundColor: "#adb5bd" }}>
+    <div className="container mt-5">
       <h1>About Us</h1>
       <p>
         NewsZap is a top news website that offers the latest news and updates from

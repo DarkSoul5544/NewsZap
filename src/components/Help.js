@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function Help() {
+  const [question, setQuestion] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Add code here to submit the question to a server or store it locally
+    console.log(`Submitted question: ${question}`);
+    setQuestion("");
+  };
+
   return (
     <div className="container mt-5">
       <h1>Help</h1>
@@ -24,6 +33,21 @@ export default function Help() {
         customer support team is available 24/7 to help you with any questions or
         concerns you may have.
       </p>
-    </div> 
+      <form onSubmit={handleSubmit}>
+        <div className="form-group ">
+          <label htmlFor="question">Ask a question:</label><textarea
+            className="form-control"
+            style={{ backgroundColor: "#50727B" }}
+            id="question"
+            rows="3"
+            value={question}
+            onChange={(event) => setQuestion(event.target.value)}
+          ></textarea>
+        </div>
+        <button type="submit" className="btn btn-primary my-3">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }

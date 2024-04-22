@@ -8,6 +8,7 @@ import SignupPage from './components/SignupPage';
 import PrivacyPolicy from  "./components/PrivacyPolicy";
 import AboutUs from './components/AboutUs';
 import Help from './components/Help';
+import TopPage from './components/TopPage';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <div className="App"
-    style={{ backgroundColor: "#adb5bd" }}>
+    style={{ backgroundColor: "#BED7DC" }}>
       <Navbar user={user}/>
       <Router>
         <Routes>
@@ -29,6 +30,7 @@ function App() {
           <Route path="/Help" element={<Help />} />
         </Routes>
       </Router>
+      <TopPage />
       {showFooter && <Footer/>}
     </div>
   );
