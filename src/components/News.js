@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "./uploads/loading.gif";
 
+
 const News = () => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
@@ -628,7 +629,8 @@ const News = () => {
                     className="card-img-top "
                     alt={article.title}
                     onError={handleImageError}
-                    style={{ height: "13rem" }}
+                    style={{ height: "13rem", transition: "transform .3s ease-in-out" }}
+                    
                   />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{article.title}</h5>

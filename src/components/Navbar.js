@@ -21,6 +21,9 @@ export default function Navbar() {
     <li className="mx-2">
       <a className="nav-link active text-light " aria-current="page" href="/signup">Sign Up</a>
     </li>
+    <li className="mx-2">
+      <a className="nav-link active text-light " aria-current="page" href="/premium">Premium</a>
+    </li>
   </ul>
 </div>
   </div>

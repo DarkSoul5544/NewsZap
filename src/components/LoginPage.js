@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const LoginPage = () => {
   return (
     <div className=" text-center p-2 text-white bg-opacity-75"
-    style={{ backgroundColor: "#BED7DC" }}>
+    >
       <section className="vh-100 gradient-custom">
         <div className="container py-5 h-100 ">
           <div className="row d-flex justify-content-center align-items-center h-100">
