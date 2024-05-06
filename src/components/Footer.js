@@ -46,7 +46,7 @@ export default function Footer() {
         
           <div className="row mt-3">
             <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold">NewsZap</h6>
+              <h6 className="text-uppercase fw-bold">𝓝𝓮𝔀𝓼𝓩𝓪𝓹</h6>
               <hr
                 className="mb-4 mt-0 d-inline-block mx-auto"
                 style={{ width: 60, backgroundColor: "#7c4dff", height: 2 }}
@@ -137,7 +137,7 @@ export default function Footer() {
         style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
       >
         <p className="text-white">
-        © 2024 Copyright: NewsZap
+        © 2024 Copyright: 𝓝𝓮𝔀𝓼𝓩𝓪𝓹
         </p>
       </div>
       

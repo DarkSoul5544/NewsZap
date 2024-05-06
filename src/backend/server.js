@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3607;
+const port = 3307;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const User = require('./users');
@@ -14,7 +14,7 @@ app.use(
   })
 );
 
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   try {
     const user = await User.findByEmail(req.body.email);
     // Compare the password sent in the request body with the password in the database
@@ -27,7 +27,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.post('/api/signup', async (req, res) => {
+app.post('/signup', async (req, res) => {
   try {
     const user = await User.create(req.body);
     req.session.user = user;
@@ -37,7 +37,7 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
-app.get('/api/premium', (req, res) => {
+app.get('/premium', (req, res) => {
   if (!req.session.user) {
     res.status(401).json({ message: 'You are not authorized to view this content' });
     return;

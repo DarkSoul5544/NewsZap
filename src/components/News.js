@@ -52,13 +52,13 @@ const News = () => {
   };
 
   return (
-    <div className="" style={{ backgroundColor: "#BED7DC" }}>
+    <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
 <div style={{ display: "grid", gridTemplateColumns: "200px 1fr" }}>
   <div className="nav-container mx-3 my-3" style={{ width: "200px", height: "100vh" }}>
       <ul className="list-unstyled my-5 mx-2 fs-1">
     <li className="nav-item">
       <button
-        type="button"
+        type="button" id="newsbtn"
         className="btn"
         onClick={() => handleCategoryChange("general")}
       >
@@ -618,8 +618,9 @@ const News = () => {
             articles.map((article, index) => (
               <div className="col-md-4 " key={index}>
                 <div
-                  className="card mb-4"
-                  style={{ width: "25rem", height: "30rem" }}
+                  className="card mb-4" id="newscard"
+                  style={{ width: "25rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
+                  
                 >
                   <img
                     src={
@@ -633,7 +634,10 @@ const News = () => {
                     
                   />
                   <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">{article.title}</h5>
+                    <h5 className="card-title">{article.title? article.title.length > 130
+                          ? article.title.slice(0, 130) + "..."
+                          : article.title
+                        : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}</h5>
                     <p className="card-text">
                       {article.description
                         ? article.description.length > 130

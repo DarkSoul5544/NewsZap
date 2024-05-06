@@ -11,6 +11,7 @@ import Help from './components/Help';
 import TopPage from './components/TopPage';
 import PremiumPage from './components/PremiumPage';
 import HomePage from './components/HomePage';
+import "./App.css";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
 
   return (
     <div className="App"
-    style={{ backgroundColor: "#BED7DC" }}>
+    style={{backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)`}}>
   <Navbar />
       <Router>
         <Routes>

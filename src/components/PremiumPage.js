@@ -1,13 +1,11 @@
 import React from 'react'
-import "./premium.css";
-
 
 export default function PremiumPage() {
   return (
     <div>
       <section>
         
-        <h1>Pricing card</h1>
+        <h1>Memberships</h1>
         <div className="cards">
           <div className="card card--purple">
             <div className="card__outer">
@@ -18,12 +16,12 @@ export default function PremiumPage() {
                   </svg>
                 </span>
                 <p className="title">starter pack</p>
-                <p className="price"><span className="price price--number"><span className="price price--dolar">$</span>29</span></p>
+                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>129</span></p>
       
                 <ul>
-                  <li>first advantage</li>
-                  <li>second advantage</li>
-                  <li>third advantage</li>
+                  <li>Access to breaking news and top stories</li>
+                  <li>Basic email updates</li>
+                  <li>Basic customer support</li>
                 </ul>
               </div>
               <a href="https://razorpay.me/@darksoul">get started now <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -41,13 +39,13 @@ export default function PremiumPage() {
                   </svg>
                 </span>
                 <p className="title">enterprise pack</p>
-                <p className="price"><span className="price price--number"><span className="price price--dolar">$</span>49</span></p>
+                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>249</span></p>
       
                 <ul>
-                  <li>first advantage</li>
-                  <li>second advantage</li>
-                  <li>third advantage</li>
-                  <li>fourth advantage</li>
+                  <li>Unlimited access to breaking news and top stories</li>
+                  <li>Full access to premium articles</li>
+                  <li>Advanced email updates</li>
+                  <li>Priority customer support</li>
                 </ul>
               </div>
               <a href="https://razorpay.me/@darksoul">get started now <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -65,12 +63,14 @@ export default function PremiumPage() {
                   </svg>
                 </span>
                 <p className="title">premium pack</p>
-                <p className="price"><span className="price price--number"><span className="price price--dolar">$</span>89</span></p>
+                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>389</span></p>
       
                 <ul>
-                  <li>first advantage</li>
-                  <li>second advantage</li>
-                  <li>third advantage</li>
+                  <li>Full access to premium articles</li>
+                  <li>Priority customer support</li>
+                  <li>Customized content recommendations</li>
+                  <li>Exclusive access to premium features</li>
+                  <li>Customized content recommendations</li>
                 </ul>
               </div>
               <a href="https://razorpay.me/@darksoul">get started now <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
