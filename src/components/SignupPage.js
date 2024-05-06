@@ -4,6 +4,36 @@ import { Link } from "react-router-dom";
 
 
 const SignupPage = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+
+    try {
+      const response = await fetch('http://localhost:3307/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      if (response.ok) {
+        // Handle successful signup
+        const data = await response.json();
+        console.log('User signed up successfully:', data);
+      } else {
+        // Handle error
+        const error = await response.json();
+        console.error('Error signing up user:', error);
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Error signing up user:', error);
+    }
+  };
   return (
     <div className="container mt-4">
       <section className="vh-100 gradient-custom">
@@ -56,7 +86,7 @@ const SignupPage = () => {
                       data-mdb-button-init
                       data-mdb-ripple-init
                       className="btn btn-outline-light btn-lg px-5 my-5"
-                      type="submit"
+                      type="submit" onSubmit={handleSubmit}
                     >
                       SignUp
                     </button>

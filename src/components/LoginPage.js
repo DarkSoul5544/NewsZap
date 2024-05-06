@@ -4,13 +4,27 @@ import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Handle login logic here
-    //...
-
-    // After successful login, navigate to the news page and set isLoggedIn to true
-    navigate("/news", { replace: true });
-    
+  const handleLogin = async () => {
+    const email = document.getElementById('typeEmailX').value;
+    const password = document.getElementById('typePasswordX').value;
+  
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.message === 'Login successful') {
+        navigate('/news', { replace: true });
+      } else {
+        alert('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
   };
 
   return (
