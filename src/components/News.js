@@ -15,9 +15,7 @@ const News = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          // `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
-          // `https://gnews.io/api/v4/top-headlines?category=${category}&apikey=c7618ea3fbbd79af9247bc19fe07cefb`
-          `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&country=${country}&max=9&apikey=c7618ea3fbbd79af9247bc19fe07cefb&page=${page}`
+          `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
         );
         setArticles(response.data.articles);
       } catch (error) {
@@ -626,8 +624,8 @@ const News = () => {
                 >
                   <img
                     src={
-                      // article.urlToImage
-                      article.image ||
+                      
+                      article.urlToImage ||
                       "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
                     }
                     className="card-img-top "
