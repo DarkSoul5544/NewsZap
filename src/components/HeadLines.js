@@ -6,7 +6,7 @@ import Loading from "./uploads/loading.gif";
 const HeadLines = () => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
-  const [category, setCategory] = useState("general");
+  const [category, setCategory] = useState("top");
   const [country, setCountry] = useState("in");
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ const HeadLines = () => {
       try {
         const response = await axios.get(
         //   `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&q=pizza`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=6&category=${category}&country=${country}&language=en`
         );
         setArticles(response.data.results);
       } catch (error) {
@@ -61,9 +61,9 @@ const HeadLines = () => {
       <button
         type="button" id="newsbtn"
         className="btn"
-        onClick={() => handleCategoryChange("general")}
+        onClick={() => handleCategoryChange("crime")}
       >
-        General
+        Crime
       </button>
     </li>
     <li className="nav-item">
@@ -626,7 +626,7 @@ const HeadLines = () => {
                   <img
                     src={
                       
-                      article.urlToImage ||
+                      article.image_url || article.video_url ||
                       "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
                     }
                     className="card-img-top "
@@ -648,7 +648,7 @@ const HeadLines = () => {
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
                     </p>
                     <a
-                      href={article.url}
+                      href={article.link}
                        rel="noopener noreferrer"
                       className="btn btn-primary mt-auto"
                     >
