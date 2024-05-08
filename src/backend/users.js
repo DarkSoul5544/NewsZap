@@ -1,19 +1,36 @@
-const mysql = require('mysql');
+const { Client } = require('pg');
 
 module.exports = (db) => {
-  const User = {};
 
-  User.findByEmail = async (email) => {
-    const query = 'SELECT * FROM users WHERE email = ?';
-    const result = await db.query(query, email);
-    return result[0];
-  };
+  const db = new Client({
+    connectionString: 'postgres://default:NDuzi41kphST@ep-divine-king-a40652qt.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
+  });
 
-  User.create = async (userData) => {
-    const query = 'INSERT INTO users SET ?';
-    const result = await db.query(query, userData);
-    return result.insertId;
-  };
+  const User = function (db, pg) {
+  this.db = db;
+  this.pg = pg;
+};
+
+User.prototype.findByEmail = async function (email) {
+  const query = 'SELECT * FROM users WHERE email = $1';
+  const { rows } = await this.pg.query(query, [email]);
+  if (rows.length === 0) {
+    return null;
+  }
+  return rows[0];
+};
+
+User.create = async function (userData) {
+  const query = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)';
+  const { rows } = await this.pg.query(query, [userData.name, userData.email, userData.password]);
+  return rows[0].id;
+};
+
+User.findAll = async function () {
+  const query = 'SELECT * FROM users';
+  const { rows } = await this.pg.query(query);
+  return rows;
+};
 
   return User;
 };

@@ -16,7 +16,7 @@ const HeadLines = () => {
       try {
         const response = await axios.get(
         //   `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=6&category=${category}&country=${country}&language=en`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=9&category=${category}&country=${country}&language=en`
         );
         setArticles(response.data.results);
       } catch (error) {
@@ -151,25 +151,25 @@ const HeadLines = () => {
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChange("ae")}
+                  onClick={() => handleCountryChange("af")}
                 >
-                  United Arab Emirates
+                  Afghanistan
                 </button>
               </li>
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChange("ar")}
+                  onClick={() => handleCountryChange("al")}
                 >
-                  Argentina
+                Albania
                 </button>
               </li>
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChange("at")}
+                  onClick={() => handleCountryChange("dz")}
                 >
-                  Austria
+                  Algeria
                 </button>
               </li>
               <li>

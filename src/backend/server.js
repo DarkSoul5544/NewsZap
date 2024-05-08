@@ -4,7 +4,7 @@ const port = 3000; // Changed port to avoid conflict with MySQL
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mysql = require('mysql');
+const { Client } = require('pg');
 
 // CORS configuration
 app.use(cors({
@@ -25,23 +25,16 @@ app.use(
 );
 
 // MySQL connection
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'newszap'
+const db = new Client({
+  connectionString: 'postgres://default:NDuzi41kphST@ep-divine-king-a40652qt.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL');
-});
+b.connect()
+ .then(() => console.log('Connected to PostgreSQL'))
+ .catch((err) => console.error('Error connecting to PostgreSQL:', err));
 
 // User model
-const User = require('./users')(db);
+const User = require('./users')(db, pg);
 
 // Routes
 
@@ -56,9 +49,7 @@ const User = require('./users')(db);
         return;
       }
   
-      // Compare the provided password with the stored password
-      // For demonstration purposes, we're using a simple string comparison
-      // In a real-world application, you should use a library like bcrypt to hash and compare passwords
+     
       if (password !== user.password) {
         res.status(401).json({ message: 'Invalid email or password' });
         return;

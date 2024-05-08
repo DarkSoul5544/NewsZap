@@ -21,6 +21,7 @@ export default function Navbar() {
           <img src={userImage} className="fas fa-user-circle" width="50" height="50" alt="user" />
           </button>
           <ul className="dropdown-menu dropdown-menu-dark bg-opacity-0 ">
+          <li><a className="dropdown-item" href="/profile">My Profile</a></li>
             <li><a className="dropdown-item" href="/login">Login</a></li>
             <li><a className="dropdown-item" href="/signup">Sign Up</a></li>
             <li><a className="dropdown-item" href="/premium">Premium</a></li>
