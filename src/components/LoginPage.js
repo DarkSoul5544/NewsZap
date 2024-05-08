@@ -1,32 +1,9 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-
-  const handleLogin = async () => {
-    const email = document.getElementById('typeEmailX').value;
-    const password = document.getElementById('typePasswordX').value;
-  
-    try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-  
-      const data = await response.json();
-  
-      if (data.message === 'Login successful') {
-        navigate('/news', { replace: true });
-      } else {
-        alert('Invalid email or password');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
-  };
-
+ 
   return (
     <div className="text-center p-2 text-white bg-opacity-75">
       <section className="vh-100 gradient-custom">
@@ -54,7 +31,7 @@ const LoginPage = () => {
                       </a>
                     </p>
 
-                    <button data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-light btn-lg px-5" type="submit" onClick={handleLogin}>
+                    <button data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-light btn-lg px-5" type="submit" >
                       Login
                     </button>
 

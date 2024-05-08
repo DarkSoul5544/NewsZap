@@ -3,7 +3,7 @@ import axios from "axios";
 import Loading from "./uploads/loading.gif";
 
 
-const News = () => {
+const HeadLines = () => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("general");
@@ -15,9 +15,10 @@ const News = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
+        //   `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&q=pizza`
         );
-        setArticles(response.data.articles);
+        setArticles(response.data.results);
       } catch (error) {
         console.error("Error fetching news: ", error);
       }
@@ -653,6 +654,7 @@ const News = () => {
                     >
                       Read More
                     </a>
+                    
                   </div>
                 </div>
               </div>
@@ -683,4 +685,5 @@ const News = () => {
   );
 };
 
-export default News;
+export default HeadLines
+;

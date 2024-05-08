@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3307; // Changed port to avoid conflict with MySQL
+const port = 3000; // Changed port to avoid conflict with MySQL
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');

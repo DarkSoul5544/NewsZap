@@ -12,6 +12,7 @@ import TopPage from './components/TopPage';
 import PremiumPage from './components/PremiumPage';
 import HomePage from './components/HomePage';
 import "./App.css";
+import HeadLines from './components/HeadLines';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/Help" element={<Help />} />
           <Route path="/premium" element={<PremiumPage />} />
+          <Route path="/headlines" element={<HeadLines />} />
         </Routes>
       </Router>
       <TopPage />
