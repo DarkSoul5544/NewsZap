@@ -16,7 +16,7 @@ const HeadLines = () => {
       try {
         const response = await axios.get(
         //   `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=9&category=${category}&country=${country}&language=en`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=8&category=${category}&country=${country}&language=en`
         );
         setArticles(response.data.results);
       } catch (error) {
@@ -55,7 +55,7 @@ const HeadLines = () => {
   return (
     <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
 <div style={{ display: "grid", gridTemplateColumns: "200px 1fr" }}>
-  <div className="nav-container mx-3 my-3" style={{ width: "200px", height: "100vh" }}>
+  <div className="nav-container mx-3 my-3" style={{ width: "150px", height: "100vh" }}>
       <ul className="list-unstyled my-5 mx-2 fs-1">
     <li className="nav-item">
       <button
@@ -617,10 +617,10 @@ const HeadLines = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-md-4 " key={index}>
+              <div className="col-md-3 mx-5 " key={index}>
                 <div
-                  className="card mb-4" id="newscard"
-                  style={{ width: "25rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
+                  className="card mb-4 mx-5" id="newscard"
+                  style={{ width: "23rem", height: "32rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
                   
                 >
                   <img

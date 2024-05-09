@@ -53,8 +53,8 @@ const News = () => {
 
   return (
     <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
-<div style={{ display: "grid", gridTemplateColumns: "200px 1fr" }}>
-  <div className="nav-container mx-3 my-3" style={{ width: "200px", height: "100vh" }}>
+<div className="" style={{ display: "grid", gridTemplateColumns: "150px 1fr" }}>
+  <div className="nav-container mx-3 my-3" >
       <ul className="list-unstyled my-5 mx-2 fs-1">
     <li className="nav-item">
       <button
@@ -616,7 +616,7 @@ const News = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-md-4 " key={index}>
+              <div className="col-md-5" key={index}>
                 <div
                   className="card mb-4" id="newscard"
                   style={{ width: "25rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
