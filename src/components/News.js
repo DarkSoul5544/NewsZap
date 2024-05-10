@@ -616,7 +616,7 @@ const News = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-md-5" key={index}>
+              <div className="col-md-3 mx-5" key={index}>
                 <div
                   className="card mb-4" id="newscard"
                   style={{ width: "25rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}

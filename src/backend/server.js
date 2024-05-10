@@ -1,10 +1,34 @@
 const express = require('express');
 const app = express();
-const port = 3000; // Changed port to avoid conflict with MySQL
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const { Client } = require('pg');
+const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/newszap', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Increase the maximum header size limit to 8KB
+app.use(bodyParser.json({ limit: '8kb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '8kb' }));
+
+// Define User schema and model
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  is_premium: { type: Boolean, default: false },
+});
+const User = mongoose.model('User', userSchema , {
+  email: String,
+  password: String,
+});
+
+app.use(express.json());
 
 // CORS configuration
 app.use(cors({
@@ -24,52 +48,70 @@ app.use(
   })
 );
 
-// MySQL connection
-const db = new Client({
-  connectionString: 'postgres://default:NDuzi41kphST@ep-divine-king-a40652qt.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
-});
-
-b.connect()
- .then(() => console.log('Connected to PostgreSQL'))
- .catch((err) => console.error('Error connecting to PostgreSQL:', err));
-
-// User model
-const User = require('./users')(db, pg);
-
 // Routes
 
-  app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const user = await User.findByEmail(email);
-  
-      if (!user) {
-        res.status(401).json({ message: 'Invalid email or password' });
-        return;
-      }
-  
-     
-      if (password !== user.password) {
-        res.status(401).json({ message: 'Invalid email or password' });
-        return;
-      }
-  
-      req.session.user = user;
-      res.status(200).json({ message: 'Login successful' });
-    } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ message: 'An error occurred while logging in' });
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ success: false, message: "User not found" });
     }
-  });
+
+    const isValidUser = await bcrypt.compare(password, user.password);
+    if (!isValidUser) {
+      return res.status(401).json({ success: false, message: "Invalid password" });
+    }
+
+    const accessToken = jwt.sign(
+      {
+        email: email,
+      },
+      "3A213FEA84B95DFF7E81B49E79D12",
+      { expiresIn: "1800s" }
+    );
+
+    const refreshToken = jwt.sign(
+      {
+        email: email,
+      },
+      "C142F493D7EE27A9ABF3DB723B68E",
+      { expiresIn: "1y" }
+    );
+
+    res.json({ success: true, accessToken, refreshToken });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 
 app.post('/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Check if the name, email, and password are provided
+  if (!name ||!email ||!password) {
+    res.status(400).json({ message: 'Please provide name, email, and password' });
+    return;
+  }
+
+  // Check if the email is already in use
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    res.status(400).json({ message: 'Email already in use' });
+    return;
+  }
+
+  // Create a new user
+  const newUser = new User({ name, email, password });
+
+  // Save the new user to the database
   try {
-    const user = await User.create(req.body);
-    req.session.user = user;
+    await newUser.save();
+    req.session.user = newUser;
     res.status(200).json({ message: 'Signup successful' });
   } catch (err) {
-    res.status(400).json({ message: 'Email already in use' });
+    res.status(500).json({ message: 'An error occurred while signing up' });
   }
 });
 
@@ -86,15 +128,18 @@ app.get('/premium', (req, res) => {
   }
 
   // Fetch premium content from the database
-  const query = 'SELECT * FROM premium_content WHERE user_id =?';
-  db.query(query, req.session.user.id, (err, results) => {
-    if (err) {
+  User.findOne({ _id: req.session.user._id, is_premium: true })
+   .then((user) => {
+      if (!user) {
+        res.status(403).json({ message: 'You do not have premium access' });
+        return;
+      }
+
+      // Send the premium content
+      res.status(200).json({ message: 'This is premium news content', content: user.premium_content });
+    })
+   .catch((err) => {
       console.error('Error fetching premium content:', err);
       res.status(500).json({ message: 'An error occurred while fetching premium content' });
-      return;
-    }
-
-    // Send the premium content
-    res.status(200).json({ message: 'This is premium news content', content: results });
-  });
+    });
 });

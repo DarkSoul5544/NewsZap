@@ -8,7 +8,6 @@ export default function Profile() {
   const [phone, setPhone] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [image, setImage] = useState('https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg');
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -35,9 +34,10 @@ export default function Profile() {
   };
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-    setImage(URL.createObjectURL(e.target.files[0]));
-  };
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    setImage(url);
+};
 
   const handleSaveClick = () => {
     // Save the edited data to the database

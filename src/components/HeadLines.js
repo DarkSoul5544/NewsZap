@@ -15,8 +15,7 @@ const HeadLines = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-        //   `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=8&category=${category}&country=${country}&language=en`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=9&category=${category}&country=${country}&language=en`
         );
         setArticles(response.data.results);
       } catch (error) {
@@ -54,8 +53,8 @@ const HeadLines = () => {
 
   return (
     <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
-<div style={{ display: "grid", gridTemplateColumns: "200px 1fr" }}>
-  <div className="nav-container mx-3 my-3" style={{ width: "150px", height: "100vh" }}>
+<div style={{ display: "grid", gridTemplateColumns: "110px 1fr" }}>
+  <div className="nav-container mx-3 my-3" style={{ width: "11%", height: "50%" }}>
       <ul className="list-unstyled my-5 mx-2 fs-1">
     <li className="nav-item">
       <button
@@ -617,10 +616,10 @@ const HeadLines = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-md-3 mx-5 " key={index}>
+              <div className="col-3 mx-4 my-3 " key={index}>
                 <div
-                  className="card mb-4 mx-5" id="newscard"
-                  style={{ width: "23rem", height: "32rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
+                  className="card " id="newscard"
+                  style={{ width: "20rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
                   
                 >
                   <img
@@ -636,14 +635,14 @@ const HeadLines = () => {
                     
                   />
                   <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">{article.title? article.title.length > 130
-                          ? article.title.slice(0, 130) + "..."
+                    <h5 className="card-title">{article.title? article.title.length > 105
+                          ? article.title.slice(0, 105) + "..."
                           : article.title
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}</h5>
                     <p className="card-text">
                       {article.description
-                        ? article.description.length > 130
-                          ? article.description.slice(0, 130) + "..."
+                        ? article.description.length > 105
+                          ? article.description.slice(0, 105) + "..."
                           : article.description
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
                     </p>
