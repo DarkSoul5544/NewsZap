@@ -200,6 +200,7 @@ section > span {
 .card {
   width: 30.5rem;
   cursor: pointer;
+  overflow:hidden
 }
 .card ul {
   margin: 0;
@@ -493,6 +494,7 @@ h1 {
 .main-navigation-toggle {
   position: top;
   margin-right: 20px;
+  margin-left: 20px;
   height: 1px;
   width: 1px;
   overflow: hidden;
@@ -502,6 +504,7 @@ h1 {
   + label {
     position: top;
     margin-right: 20px;
+    margin-left: 20px;
     top: calc(var(--space) * 1.5);
     right: calc(var(--space) * 2);
     cursor: pointer;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 export default function Profile() {
-  const [name, setName] = useState('Vishal');
+  const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('newszap@mail.com');
+  const [email, setEmail] = useState('');
   const [category, setCategory] = useState('');
   const [phone, setPhone] = useState('');
   const [isEditing, setIsEditing] = useState(false);

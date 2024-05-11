@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://darky:darky@newszap.h4zustk.mongodb.net/newszap', {
+mongoose.connect('mongodb+srv://darky:darky@newszap.h4zustk.mongodb.net/?retryWrites=true&w=majority&appName=newszap', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
