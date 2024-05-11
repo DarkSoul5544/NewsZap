@@ -8,14 +8,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://darky:darky@newszap.h4zustk.mongodb.net/?retryWrites=true&w=majority&appName=newszap', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect('mongodb://localhost:27017/newszap');
 
-// Increase the maximum header size limit to 1000KB
-app.use(bodyParser.json({ limit: '1000kb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '2000kb' }));
+
 
 // Define User schema and model
 const userSchema = new mongoose.Schema({
@@ -23,10 +18,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   is_premium: { type: Boolean, default: false },
 });
-const User = mongoose.model('User', userSchema , {
-  email: String,
-  password: String,
-});
+const User = mongoose.model('User', userSchema);
 
 app.use(express.json());
 
@@ -53,7 +45,7 @@ app.use(
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await newszap.users.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ success: false, message: "User not found" });
     }
@@ -96,14 +88,14 @@ app.post('/signup', async (req, res) => {
   }
 
   // Check if the email is already in use
-  const existingUser = await newszap.users.findOne({ email });
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     res.status(400).json({ message: 'Email already in use' });
     return;
   }
 
   // Create a new user
-  const newUser = new newszap.users({ name, email, password });
+  const newUser = new User({ name, email, password });
 
   // Save the new user to the database
   try {
@@ -128,8 +120,8 @@ app.get('/premium', (req, res) => {
   }
 
   // Fetch premium content from the database
-  newszap.users.findOne({ _id: req.session.user._id, is_premium: true })
-   .then((user) => {
+  User.findOne({ _id: req.session.user._id, is_premium: true })
+  .then((user) => {
       if (!user) {
         res.status(403).json({ message: 'You do not have premium access' });
         return;
@@ -138,8 +130,12 @@ app.get('/premium', (req, res) => {
       // Send the premium content
       res.status(200).json({ message: 'This is premium news content', content: user.premium_content });
     })
-   .catch((err) => {
+  .catch((err) => {
       console.error('Error fetching premium content:', err);
       res.status(500).json({ message: 'An error occurred while fetching premium content' });
     });
+});
+
+app.listen(5001, () => {
+  console.log(`Server is running on port 5001`);
 });

@@ -70,7 +70,6 @@ export default function PremiumPage() {
                   <li>Priority customer support</li>
                   <li>Customized content recommendations</li>
                   <li>Exclusive access to premium features</li>
-                  <li>Customized content recommendations</li>
                 </ul>
               </div>
               <a href="https://razorpay.me/@darksoul">get started now <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">

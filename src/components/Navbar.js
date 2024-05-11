@@ -1,6 +1,6 @@
 import React from 'react'
 import myImage from "./uploads/logo.png"
-
+import news from "./uploads/logo.png"
 
 
 export default function Navbar() {
@@ -38,6 +38,11 @@ export default function Navbar() {
             <li><a className="dropdown-item" href="/signup">Sign Up</a></li>
             <li><a className="dropdown-item" href="/premium">Premium</a></li>
   </ul>
+  <div className="container_outer_img1">
+ <div className="img-inner1">
+ <img src={news}  alt="" className="container_img1"/>
+       </div>
+     </div>
 </nav>
 
 

@@ -15,7 +15,7 @@ const HeadLines = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=9&category=${category}&country=${country}&language=en`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=9&category=${category}&country=${country}&language=en&`
         );
         setArticles(response.data.results);
       } catch (error) {
@@ -641,8 +641,8 @@ const HeadLines = () => {
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}</h5>
                     <p className="card-text">
                       {article.description
-                        ? article.description.length > 105
-                          ? article.description.slice(0, 105) + "..."
+                        ? article.description.length > 95
+                          ? article.description.slice(0, 95) + "..."
                           : article.description
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
                     </p>
