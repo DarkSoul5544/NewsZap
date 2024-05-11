@@ -37,7 +37,7 @@ export default function Help() {
         <div className="form-group ">
           <label htmlFor="question">Ask a question:</label><textarea
             className="form-control"
-            style={{ backgroundColor: "#50727B" }}
+            style={{ backgroundColor: "#50727B"}}
             id="question"
             rows="3"
             value={question}
