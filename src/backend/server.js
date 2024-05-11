@@ -8,14 +8,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/newszap', {
+mongoose.connect('mongodb+srv://darky:darky@newszap.h4zustk.mongodb.net/newszap', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// Increase the maximum header size limit to 8KB
-app.use(bodyParser.json({ limit: '8kb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '8kb' }));
+// Increase the maximum header size limit to 1000KB
+app.use(bodyParser.json({ limit: '1000kb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '2000kb' }));
 
 // Define User schema and model
 const userSchema = new mongoose.Schema({
@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 // Session configuration
 app.use(
   session({
-    secret: 'your_session_secret',
+    secret: 'ZYGUsxSpwa',
     resave: false,
     saveUninitialized: false,
   })
@@ -53,7 +53,7 @@ app.use(
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await newszap.users.findOne({ email });
     if (!user) {
       return res.status(401).json({ success: false, message: "User not found" });
     }
@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
       {
         email: email,
       },
-      "3A213FEA84B95DFF7E81B49E79D12",
+      "XFWu1ZzBXQ",
       { expiresIn: "1800s" }
     );
 
@@ -75,7 +75,7 @@ app.post("/login", async (req, res) => {
       {
         email: email,
       },
-      "C142F493D7EE27A9ABF3DB723B68E",
+      "V7xxamwoiM",
       { expiresIn: "1y" }
     );
 
@@ -96,14 +96,14 @@ app.post('/signup', async (req, res) => {
   }
 
   // Check if the email is already in use
-  const existingUser = await User.findOne({ email });
+  const existingUser = await newszap.users.findOne({ email });
   if (existingUser) {
     res.status(400).json({ message: 'Email already in use' });
     return;
   }
 
   // Create a new user
-  const newUser = new User({ name, email, password });
+  const newUser = new newszap.users({ name, email, password });
 
   // Save the new user to the database
   try {
@@ -128,7 +128,7 @@ app.get('/premium', (req, res) => {
   }
 
   // Fetch premium content from the database
-  User.findOne({ _id: req.session.user._id, is_premium: true })
+  newszap.users.findOne({ _id: req.session.user._id, is_premium: true })
    .then((user) => {
       if (!user) {
         res.status(403).json({ message: 'You do not have premium access' });

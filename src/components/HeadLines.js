@@ -55,7 +55,7 @@ const HeadLines = () => {
     <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
 <div style={{ display: "grid", gridTemplateColumns: "110px 1fr" }}>
   <div className="nav-container mx-3 my-3" style={{ width: "11%", height: "50%" }}>
-      <ul className="list-unstyled my-5 mx-2 fs-1">
+      <ul className="list-unstyled my-5 mx-auto fs-1">
     <li className="nav-item">
       <button
         type="button" id="newsbtn"
@@ -616,7 +616,7 @@ const HeadLines = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-3 mx-4 my-3 " key={index}>
+              <div className="col-auto mx-auto my-4 " key={index}>
                 <div
                   className="card " id="newscard"
                   style={{ width: "20rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
@@ -635,8 +635,8 @@ const HeadLines = () => {
                     
                   />
                   <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">{article.title? article.title.length > 105
-                          ? article.title.slice(0, 105) + "..."
+                    <h5 className="card-title">{article.title? article.title.length > 95
+                          ? article.title.slice(0, 95) + "..."
                           : article.title
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}</h5>
                     <p className="card-text">
