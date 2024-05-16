@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LoginPage = () => {
@@ -12,14 +12,15 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("/login", { email, password });
+      const response = await axios.post("http://localhost:5000/api/login", { email, password });
+      
       if (response.data.success) {
         setIsLoggedIn(true);
       } else {
         setError(response.data.message);
       }
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -33,16 +34,17 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/headlines", { replace: true });
+      navigate("/profile", { replace: true });
     }
   }, [isLoggedIn, navigate]);
+
   return (
     <div className="text-center p-2 text-white bg-opacity-75">
       <section className="gradient-custom">
-        <div className="container py-5 ">
+        <div className="container py-5">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-              <div className="card bg-dark text-white" style={{ backgroundImage: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(95,46,195,1) 35%, rgba(0,212,255,1) 100%)'}}>
+              <div className="card bg-dark text-white" style={{ backgroundImage: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(95,46,195,1) 35%, rgba(0,212,255,1) 100%)' }}>
                 <div className="card-body p-5 text-center">
                   <div className="mb-md-5 mt-md-4 pb-5">
                     <h2 className="fw-bold mb-2 text-uppercase">Login</h2>

@@ -25,13 +25,12 @@ const SignupPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-    .post("/signup", formData)
+    .post("http://localhost:5000/api/signup", formData)
     .then((response) => {
         setSuccess(true);
         setError(null);
         console.log(response);
-        // Handle successful signup
-        // You can also redirect the user to the login page or dashboard
+       
         window.location.href = "/login";
       })
     .catch((error) => {

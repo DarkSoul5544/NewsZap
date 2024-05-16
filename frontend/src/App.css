@@ -1,3 +1,5 @@
+
+
 /* Home Page */
 body::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
@@ -650,7 +652,7 @@ h1 {
       animation: link-appear calc(var(--duration) * 1.5) var(--ease) forwards;
     }
 
-    @for $i from 1 through 4 {
+     @for $i from 1 through 4 {
       li:nth-child(#{$i}) {
         &:after,
         a {

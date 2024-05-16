@@ -14,10 +14,10 @@ const News = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
+        const respo = await axios.get(
           `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
         );
-        setArticles(response.data.articles);
+        setArticles(respo.data.articles);
       } catch (error) {
         console.error("Error fetching news: ", error);
       }
