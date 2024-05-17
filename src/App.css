@@ -204,7 +204,7 @@ section > span {
 }
 
 .card {
-  width: 30.5rem;
+  width: relative;
   cursor: pointer;
   overflow:hidden
 }
@@ -772,4 +772,34 @@ ul {
 }
 
 
+/* test */
 
+/* Make the list collapsible on mobile screens */
+/* Make the list horizontal on mobile screens */
+@media only screen and (max-width: 768px) {
+  #categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  #categories.collapsible {
+    display: block;
+  }
+  #categories-button {
+    display: block;
+  }
+}
+
+/* Make the list vertical on PC screens */
+@media only screen and (min-width: 769px) {
+  #categories {
+    display: block;
+    flex-direction: column;
+  }
+  #categories-button {
+    display: none;
+  }
+}

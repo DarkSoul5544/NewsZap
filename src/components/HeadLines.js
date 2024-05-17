@@ -9,13 +9,14 @@ const HeadLines = () => {
   const [category, setCategory] = useState("top");
   const [country, setCountry] = useState("in");
   const [loading, setLoading] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const respo = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&size=9&category=${category}&country=${country}&language=en&`
+          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&category=${category}&country=${country}&language=en&`
         );
         setArticles(respo.data.results);
       } catch (error) {
@@ -27,15 +28,19 @@ const HeadLines = () => {
     fetchData();
   }, [category, page, country]);
 
-  const handlePrevClick = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
+  // const handlePrevClick = () => {
+  //   if (page > 1) {
+  //     setPage(page - 1);
+  //   }
+  // };
 
-  const handleNextClick = () => {
-    setPage(page + 1);
+  // const handleNextClick = () => {
+  //   setPage(page + 1);
+  // };
+  const handleToggle = () => {
+    setIsCollapsed(!isCollapsed);
   };
+  
 
   const handleCategoryChange = (newCategory) => {
     setCategory(newCategory);
@@ -53,9 +58,12 @@ const HeadLines = () => {
 
   return (
     <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
-<div style={{ display: "grid", gridTemplateColumns: "110px 1fr" }}>
+<div style={{ display: "grid", gridTemplateColumns: "110px 1fr" }} id="categories">
   <div className="nav-container mx-3 my-3" style={{ width: "11%", height: "50%" }}>
-      <ul className="list-unstyled my-5 mx-auto fs-1">
+  <button className="btn" id="categories-button" onClick={handleToggle}>
+      {isCollapsed? "Show categories" : "Hide categories"}
+    </button>
+      <ul id="categories" className={isCollapsed? "list-unstyled my-5 mx-auto fs-1" : "collapsible"  }>
     <li className="nav-item">
       <button
         type="button" id="newsbtn"
@@ -120,7 +128,9 @@ const HeadLines = () => {
       </button>
     </li>
   </ul>
+
   </div>
+  
   <div className="container mt-4" style={{ flex: 1 }}>
   <ul>
           <div className="dropdown d-flex justify-content-end">
@@ -616,7 +626,7 @@ const HeadLines = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-auto mx-auto my-4 " key={index}>
+              <div className="col-md-4 col-sm-6 mb-4 " key={index}>
                 <div
                   className="card " id="newscard"
                   style={{ width: "20rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
@@ -661,22 +671,22 @@ const HeadLines = () => {
           )}
         </div>
         <div className="d-flex justify-content-between my-4 ">
-          <button
+          {/* <button
             type="button"
             className="btn btn-dark"
             onClick={handlePrevClick}
             disabled={page === 1}
           >
             Previous
-          </button>
-          <button
+          </button> */}
+          {/* <button
             type="button"
             className="btn btn-dark"
-            onClick={handleNextClick}
+            onClick={handleNextClick}   
             disabled={articles.length < 6}
           >
             Next
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
