@@ -13,8 +13,10 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const response = await axios.post("http://localhost:5000/api/login", { email, password });
-      
-      if (response.data.success) {
+
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         setIsLoggedIn(true);
       } else {
         setError(response.data.message);

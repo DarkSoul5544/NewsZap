@@ -626,7 +626,7 @@ const HeadLines = () => {
             </div>
           ) : (
             articles.map((article, index) => (
-              <div className="col-md-4 col-sm-6 mb-4 " key={index}>
+              <div className="col-auto mx-auto my-4  " key={index}>
                 <div
                   className="card " id="newscard"
                   style={{ width: "20rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}

@@ -1,13 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function Profile() {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [category, setCategory] = useState('');
   const [phone, setPhone] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [image, setImage] = useState('https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg');
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('http://localhost:5000/api/profile', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const user = response.data;
+          setName(user.name);
+          setLastName(user.lastName);
+          setEmail(user.email);
+          setPhone(user.phone);
+          setImage(user.image);
+        } catch (error) {
+          console.error('Error fetching profile:', error);
+        }
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -21,9 +46,6 @@ export default function Profile() {
     setEmail(e.target.value);
   };
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-  };
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -37,14 +59,27 @@ export default function Profile() {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     setImage(url);
-};
+  };
 
-  const handleSaveClick = () => {
-    // Save the edited data to the database
-    //...
-
-    // Set isEditing to false to exit the editing mode
-    setIsEditing(false);
+  const handleSaveClick = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const response = await axios.put(
+          'http://localhost:5000/api/profile',
+          { name, lastName, email,  phone, image },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log('Profile updated:', response.data);
+        setIsEditing(false);
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
+    }
   };
 
   return (
@@ -104,17 +139,6 @@ export default function Profile() {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label className="labels">Category</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={category}
-                    onChange={handleCategoryChange}
-                    placeholder="Enter your category"
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="col-md-6">
                   <label className="labels">Phone</label>
                   <input
                     type="text"
@@ -146,7 +170,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                {isEditing? (
+                {isEditing ? (
                   <button className="btn btn-primary profile-button" type="button" onClick={handleSaveClick}>
                     Save Profile
                   </button>
