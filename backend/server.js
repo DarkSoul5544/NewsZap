@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-
+const Razorpay = require('razorpay');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -31,10 +31,20 @@ const userSchema = new mongoose.Schema({
     category: { type: String },
     phone: { type: String },
     image: { type: String, default: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg' },
-    is_premium: { type: Boolean, default: false }
+    is_premium: { type: Boolean, default: false },
+    plan: { type: String, default: '' },
+    premiumExpiry: { type: Date },
 });
 
 const User = mongoose.model('User', userSchema);
+
+const Payment = mongoose.model('Payment', new mongoose.Schema({
+  orderCreationId: String,
+  razorpayPaymentId: String,
+  razorpayOrderId: String,
+  razorpaySignature: String,
+  plan: String,
+}));
 
 // JWT middleware
 const authenticateJWT = (req, res, next) => {
@@ -51,8 +61,6 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401);
     }
 };
-
-
 
 // Routes
 app.post('/api/signup', async (req, res) => {
@@ -128,15 +136,13 @@ app.put('/api/profile', authenticateJWT, async (req, res) => {
     }
 });
 
-app.get("/api/get-razorpay-key", (req, res) => {
-    res.send({ key: process.env.RAZORPAY_KEY_ID });
-  });
-
-  const Razorpay = require("razorpay");
+// app.get("/api/get-razorpay-key", (req, res) => {
+//     res.send({ key: '' });
+// });
 
 // const razorpayInstance = new Razorpay({
-//   key_id: process.env.RAZORPAY_KEY_ID,
-//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+//   key_id: '',
+//   key_secret: '',
 // });
 
 app.post("/api/create-order", async (req, res) => {
@@ -153,34 +159,58 @@ app.post("/api/create-order", async (req, res) => {
   }
 });
 
-app.post("/api/save-payment-details", async (req, res) => {
-    const {
-      orderCreationId,
-      razorpayPaymentId,
-      razorpayOrderId,
-      razorpaySignature,
-    } = req.body;
-  
-    // Save payment details to the database
-    // Example using Mongoose
-    const payment = new Payment({
-      orderCreationId,
-      razorpayPaymentId,
-      razorpayOrderId,
-      razorpaySignature,
-    });
-  
-    try {
-      await payment.save();
-      res.status(200).send("Payment details saved successfully");
-    } catch (error) {
-      res.status(500).send("Error saving payment details");
-    }
+app.post("/api/save-payment-details", authenticateJWT, async (req, res) => {
+  const {
+    orderCreationId,
+    razorpayPaymentId,
+    razorpayOrderId,
+    razorpaySignature,
+    plan,
+  } = req.body;
+
+  // Save payment details to the database
+  const payment = new Payment({
+    orderCreationId,
+    razorpayPaymentId,
+    razorpayOrderId,
+    razorpaySignature,
+    plan,
   });
-  
-  
+
+  try {
+    await payment.save();
+
+    // Update user profile with premium status and expiry date (30 days from now)
+    const premiumExpiry = new Date();
+    premiumExpiry.setDate(premiumExpiry.getDate() + 30);
+    await User.findByIdAndUpdate(req.user.userId, {
+      is_premium: true,
+      plan: plan,
+      premiumExpiry: premiumExpiry,
+    });
+
+    res.status(200).send("Payment details saved successfully and user updated to premium");
+  } catch (error) {
+    res.status(500).send("Error saving payment details");
+  }
+});
+
+app.put("/api/update-premium-status", authenticateJWT, async (req, res) => {
+  try {
+    const { is_premium } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, {
+      is_premium,
+      plan: is_premium ? req.body.plan : '',
+      premiumExpiry: is_premium ? req.body.premiumExpiry : null,
+    }, { new: true });
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Error updating premium status:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

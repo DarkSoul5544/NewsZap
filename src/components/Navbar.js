@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import myImage from "./uploads/logo.png";
 import news from "./uploads/logo.png";
 
-export default function Navbar() {
+export default function Navbar({ handleCategoryChange, handleCountryChange }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -20,12 +20,40 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg d-flex justify-content-start" style={{ backgroundColor: "#1C1678" }}>
-      <div className="container-fluid d-flex justify-content-start">
+    <nav className="navbar navbar-expand-lg  sticky-top" style={{ backgroundColor: "#1C1678" }}>
+      <div className="container-fluid ">
         <img src={myImage} width="100" height="100" alt="logo" />
         <a className="navbar-brand text-light mx-3" href="/">
           <h2>𝓝𝓮𝔀𝓼𝓩𝓪𝓹</h2>
         </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        <div className='collapse navbar-collapse ' id="navbarSupportedContent">
+        <ul className="navbar-nav  ">
+            <li className="nav-item mx-5">
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('crime')}>Crime</button>
+            </li>
+            <li className="nav-item mx-5">
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('entertainment')}>Entertainment</button>
+            </li>
+            <li className="nav-item mx-5">
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('business')}>Business</button>
+            </li>
+            <li className="nav-item mx-5" >
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('health')}>Health</button>
+            </li>
+            <li className="nav-item mx-5">
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('science')}>Science</button>
+            </li>
+            <li className="nav-item mx-5">
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('sports')}>Sports</button>
+            </li>
+            <li className="nav-item mx-5">
+              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('technology')}>Technology</button>
+            </li>
+          </ul>
+          </div>
       </div>
 
       <input id="page-nav-toggle" className="main-navigation-toggle fixed-top" type="checkbox" />

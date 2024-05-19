@@ -3,13 +3,11 @@ import axios from "axios";
 import Loading from "./uploads/loading.gif";
 
 
-const HeadLines = () => {
+const HeadLines = ({ category, handleCategoryChange, country, handleCountryChange }) => {
   const [articles, setArticles] = useState([]);
-  const [page, setPage] = useState(1);
-  const [category, setCategory] = useState("top");
-  const [country, setCountry] = useState("in");
+  // const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  // const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +24,7 @@ const HeadLines = () => {
     };
 
     fetchData();
-  }, [category, page, country]);
+  }, [category, country]);
 
   // const handlePrevClick = () => {
   //   if (page > 1) {
@@ -37,19 +35,10 @@ const HeadLines = () => {
   // const handleNextClick = () => {
   //   setPage(page + 1);
   // };
-  const handleToggle = () => {
-    setIsCollapsed(!isCollapsed);
-  };
+  // const handleToggle = () => {
+  //   setIsCollapsed(!isCollapsed);
+  // };
   
-
-  const handleCategoryChange = (newCategory) => {
-    setCategory(newCategory);
-    setPage(1);
-  };
-  const handleCountryChange = (newCountry) => {
-    setCountry(newCountry);
-    setPage(1);
-  };
 
   const handleImageError = (event) => {
     event.target.src =
@@ -58,8 +47,8 @@ const HeadLines = () => {
 
   return (
     <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
-<div style={{ display: "grid", gridTemplateColumns: "110px 1fr" }} id="categories">
-  <div className="nav-container mx-3 my-3" style={{ width: "11%", height: "50%" }}>
+<div style={{ display: "grid" }} id="categories">
+  {/* <div className="nav-container mx-3 my-3" style={{ width: "11%", height: "50%" }}>
   <button className="btn" id="categories-button" onClick={handleToggle}>
       {isCollapsed? "Show categories" : "Hide categories"}
     </button>
@@ -129,7 +118,7 @@ const HeadLines = () => {
     </li>
   </ul>
 
-  </div>
+  </div> */}
   
   <div className="container mt-4" style={{ flex: 1 }}>
   <ul>
