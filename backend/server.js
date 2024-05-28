@@ -136,14 +136,14 @@ app.put('/api/profile', authenticateJWT, async (req, res) => {
     }
 });
 
-// app.get("/api/get-razorpay-key", (req, res) => {
-//     res.send({ key: '' });
-// });
+app.get("/api/get-razorpay-key", (req, res) => {
+    res.send({ key: 'rzp_live_3LBisp4YulaKDN' });
+});
 
-// const razorpayInstance = new Razorpay({
-//   key_id: '',
-//   key_secret: '',
-// });
+const razorpayInstance = new Razorpay({
+  key_id: 'rzp_live_3LBisp4YulaKDN',
+  key_secret: 'qPgaOeHIuqGJ3pyM7Sgl2l4M',
+});
 
 app.post("/api/create-order", async (req, res) => {
   const { amount } = req.body;

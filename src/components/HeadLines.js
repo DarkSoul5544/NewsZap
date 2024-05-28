@@ -46,7 +46,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
   };
 
   return (
-    <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
+    <div className="" >
 <div style={{ display: "grid" }} id="categories">
   {/* <div className="nav-container mx-3 my-3" style={{ width: "11%", height: "50%" }}>
   <button className="btn" id="categories-button" onClick={handleToggle}>

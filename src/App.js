@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div className="App"
-    style={{backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)`}}
+    // style={{backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)`}}
     >
        <Navbar handleCategoryChange={handleCategoryChange} handleCountryChange={handleCountryChange} />
       <Router>
