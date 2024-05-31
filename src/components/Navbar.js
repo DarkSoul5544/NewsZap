@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import myImage from "./uploads/logo.png";
 import news from "./uploads/logo.png";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Navbar({ handleCategoryChange, handleCountryChange }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -19,18 +21,29 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
     window.location.href = '/login'; // Redirect to login page after logout
   };
 
+  const handleToggle = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg  sticky-top" style={{ backgroundColor: "#1C1678" }}>
-      <div className="container-fluid ">
+    <nav className="navbar navbar-expand-lg sticky-top" style={{ backgroundColor: "#1C1678" }}>
+      <div className="container-fluid">
         <img src={myImage} width="100" height="100" alt="logo" />
         <a className="navbar-brand text-light mx-3" href="/">
           <h2>𝓝𝓮𝔀𝓼𝓩𝓪𝓹</h2>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-        <div className='collapse navbar-collapse ' id="navbarSupportedContent">
-        <ul className="navbar-nav  ">
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={handleToggle}
+          aria-controls="navbarSupportedContent"
+          aria-expanded={!isCollapsed}
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className={`collapse navbar-collapse ${isCollapsed ? '' : 'show'}`} id="navbarSupportedContent">
+          <ul className="navbar-nav">
             <li className="nav-item mx-5">
               <button className="nav-link btn text-light" onClick={() => handleCategoryChange('crime')}>Crime</button>
             </li>
@@ -40,7 +53,7 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
             <li className="nav-item mx-5">
               <button className="nav-link btn text-light" onClick={() => handleCategoryChange('business')}>Business</button>
             </li>
-            <li className="nav-item mx-5" >
+            <li className="nav-item mx-5">
               <button className="nav-link btn text-light" onClick={() => handleCategoryChange('health')}>Health</button>
             </li>
             <li className="nav-item mx-5">
@@ -53,7 +66,7 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
               <button className="nav-link btn text-light" onClick={() => handleCategoryChange('technology')}>Technology</button>
             </li>
           </ul>
-          </div>
+        </div>
       </div>
 
       <input id="page-nav-toggle" className="main-navigation-toggle fixed-top" type="checkbox" />
@@ -79,7 +92,8 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
             <>
               <li><a className="dropdown-item" href="/profile">My Profile</a></li>
               <li><a className="dropdown-item" href="/premium">Premium</a></li>
-              <li><a className="dropdown-item" href="#!" onClick={handleLogout}>Logout</a></li>            </>
+              <li><a className="dropdown-item" href="#!" onClick={handleLogout}>Logout</a></li>
+            </>
           ) : (
             <>
               <li><a className="dropdown-item" href="/login">Login</a></li>
@@ -89,7 +103,7 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
         </ul>
         <div className="container_outer_img1">
           <div className="img-inner1">
-            <img src={news} alt="" className="container_img1" />
+            <img src={news} alt="news" className="container_img1" />
           </div>
         </div>
       </nav>

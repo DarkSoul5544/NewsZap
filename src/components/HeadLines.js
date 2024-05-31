@@ -618,7 +618,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <div className="col-auto mx-auto my-4  " key={index}>
                 <div
                   className="card " id="newscard"
-                  style={{ width: "20rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
+                  style={{ width: "21rem", height: "30rem"  }}
                   
                 >
                   <img

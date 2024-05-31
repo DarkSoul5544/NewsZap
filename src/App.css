@@ -223,7 +223,7 @@ section > span {
 .card {
   width: relative;
   cursor: pointer;
-  overflow:hidden
+  overflow :hidden
 }
 .card ul {
   margin: 0;
@@ -352,6 +352,7 @@ section > span {
   overflow: hidden;
   margin: 0 auto;
   position: relative;
+  background: linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%);
 }
 
 #newscard img {
