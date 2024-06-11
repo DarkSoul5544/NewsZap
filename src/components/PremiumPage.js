@@ -44,19 +44,28 @@ export default function PremiumPage() {
             razorpayPaymentId: response.razorpay_payment_id,
             razorpayOrderId: response.razorpay_order_id,
             razorpaySignature: response.razorpay_signature,
+            plan: plan,
           };
 
-          await axios.post('http://localhost:5000/api/save-payment-details', { ...paymentData, plan });
+          try {
+            await axios.post('http://localhost:5000/api/save-payment-details', paymentData, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            });
 
-          // Update user profile to reflect premium status
-          setIsPremium(true);
+            // Update user profile to reflect premium status
+            setIsPremium(true);
 
-          alert('Payment Successful!');
+            alert('Payment Successful!');
+          } catch (error) {
+            console.error('Error saving payment details:', error);
+          }
         },
         prefill: {
-          name: 'NewsZap',
-          email: 'newszap@gmail.com',
-          contact: '9999999999',
+          name: user?.name || 'NewsZap',
+          email: user?.email || 'newszap@gmail.com',
+          contact: user?.phone || '9999999999',
         },
         notes: {
           address: 'NewsZap Corporate Office',
@@ -93,7 +102,7 @@ export default function PremiumPage() {
       return <div>Your premium plan has expired. Please renew.</div>;
     }
 
-  return (
+    return (
       <div className="premium-container">
          <h1>Premium Details</h1>
         <div className="profile-info">
@@ -120,14 +129,14 @@ export default function PremiumPage() {
                   {/* SVG Icon */}
                 </span>
                 <p className="title">Starter Pack</p>
-                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>129</span></p>
+                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>1</span></p>
                 <ul>
                   <li>Access to breaking news and top stories</li>
                   <li>Basic email updates</li>
                   <li>Basic customer support</li>
                 </ul>
               </div>
-              <a href='#!' onClick={() => handlePayment(129, 'Starter Pack')}>Get Started Now</a>
+              <a href='#!' onClick={() => handlePayment(1, 'Starter Pack')}>Get Started Now</a>
             </div>
           </div>
           <div className="card card--red active">
