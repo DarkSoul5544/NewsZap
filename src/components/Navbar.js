@@ -2,17 +2,33 @@ import React, { useState, useEffect } from 'react';
 import myImage from "./uploads/logo.png";
 import news from "./uploads/logo.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 export default function Navbar({ handleCategoryChange, handleCountryChange }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
+      fetchUserProfile(token);
     }
   }, []);
+
+  const fetchUserProfile = async (token) => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsPremium(response.data.is_premium);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -25,11 +41,20 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
     setIsCollapsed(!isCollapsed);
   };
 
+  const handlePremiumCategoryChange = (category) => {
+    if (isPremium) {
+      handleCategoryChange(category);
+    } else {
+      alert('Please purchase a premium subscription to access this category.');
+      window.location.href = '/premium';
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg sticky-top" style={{ backgroundColor: "#1C1678" }}>
       <div className="container-fluid">
         <img src={myImage} width="100" height="100" alt="logo" />
-        <a className="navbar-brand text-light mx-3" href="/">
+        <a className="navbar-brand text-light  mx-4" href="/">
           <h2>𝓝𝓮𝔀𝓼𝓩𝓪𝓹</h2>
         </a>
         <button
@@ -44,26 +69,26 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
         </button>
         <div className={`collapse navbar-collapse ${isCollapsed ? '' : 'show'}`} id="navbarSupportedContent">
           <ul className="navbar-nav">
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('crime')}>Crime</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('crime')}>Crime</button>
             </li>
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('entertainment')}>Entertainment</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('entertainment')}>Entertainment</button>
             </li>
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('business')}>Business</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('business')}>Business</button>
             </li>
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('health')}>Health</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('health')}>Health</button>
             </li>
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('science')}>Science</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('science')}>Science</button>
             </li>
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('sports')}>Sports</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('sports')}>Sports</button>
             </li>
-            <li className="nav-item mx-5">
-              <button className="nav-link btn text-light" onClick={() => handleCategoryChange('technology')}>Technology</button>
+            <li className="nav-item  mx-4">
+              <button className="nav-link btn text-light" onClick={() => handlePremiumCategoryChange('technology')}>Technology</button>
             </li>
           </ul>
         </div>

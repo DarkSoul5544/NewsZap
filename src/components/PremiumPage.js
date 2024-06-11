@@ -129,14 +129,14 @@ export default function PremiumPage() {
                   {/* SVG Icon */}
                 </span>
                 <p className="title">Starter Pack</p>
-                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>1</span></p>
+                <p className="price"><span className="price price--number"><span className="price price--dolar">₹</span>129</span></p>
                 <ul>
                   <li>Access to breaking news and top stories</li>
                   <li>Basic email updates</li>
                   <li>Basic customer support</li>
                 </ul>
               </div>
-              <a href='#!' onClick={() => handlePayment(1, 'Starter Pack')}>Get Started Now</a>
+              <a href='#!' onClick={() => handlePayment(129, 'Starter Pack')}>Get Started Now</a>
             </div>
           </div>
           <div className="card card--red active">

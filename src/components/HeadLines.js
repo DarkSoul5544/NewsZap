@@ -634,14 +634,14 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
                     
                   />
                   <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">{article.title? article.title.length > 95
-                          ? article.title.slice(0, 95) + "..."
+                    <h5 className="card-title">{article.title? article.title.length > 90
+                          ? article.title.slice(0, 90) + "..."
                           : article.title
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}</h5>
                     <p className="card-text">
                       {article.description
-                        ? article.description.length > 95
-                          ? article.description.slice(0, 95) + "..."
+                        ? article.description.length > 90
+                          ? article.description.slice(0, 90) + "..."
                           : article.description
                         : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
                     </p>
