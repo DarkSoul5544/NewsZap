@@ -18,9 +18,9 @@ NewsZap is a top news website that offers the latest news and updates from aroun
 <div className="btns">
 <a href='/headlines' className='btn btn-primary' > Explore Now </a>
 </div>
-{/* <div className="btns">
-<a href='/news' className='btn btn-primary my-4' > HeadLines </a>
-</div> */}
+<div className="btns">
+{/* <a href='/news' className='btn btn-primary my-4' > HeadLines </a> */}
+</div>
 </div>
 </div>
  <div className="container_outer_img">

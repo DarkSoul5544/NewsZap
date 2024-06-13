@@ -111,12 +111,12 @@ app.get('/api/profile', authenticateJWT, async (req, res) => {
 });
 
 const razorpay = new Razorpay({
-    key_id: 'YOUR_RAZORPAY_KEY_ID',
-    key_secret: 'YOUR_RAZORPAY_SECRET',
+    key_id: 'rzp_id',
+    key_secret: 'secret',
 });
 
 app.get('/api/get-razorpay-key', (req, res) => {
-    res.json({ key: 'YOUR_RAZORPAY_KEY_ID' });
+    res.json({ key: 'rzp_id' });
 });
 
 app.post('/api/create-order', async (req, res) => {

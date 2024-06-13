@@ -45,8 +45,13 @@ export default function Navbar({ handleCategoryChange, handleCountryChange }) {
     if (isPremium) {
       handleCategoryChange(category);
     } else {
-      alert('Please purchase a premium subscription to access this category.');
-      window.location.href = '/premium';
+      if (isLoggedIn) {
+        alert('Please purchase a premium subscription to access this category.');
+        window.location.href = '/premium';
+      } else {
+        alert('Please log in to access premium content.');
+        window.location.href = '/login';
+      }
     }
   };
 
