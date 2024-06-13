@@ -55,7 +55,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
   // Function to handle image loading error by setting a default image
   const handleImageError = (event) => {
     event.target.src =
-      "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480";
+      "https://static9.depositphotos.com/1011646/1238/i/450/depositphotos_12382530-stock-photo-breaking-news-screen.jpg";
   };
 
   // Function to handle country change for premium users
@@ -588,7 +588,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
                     <img
                       src={
                         article.image_url || article.video_url ||
-                        "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
+                        "https://static9.depositphotos.com/1011646/1238/i/450/depositphotos_12382530-stock-photo-breaking-news-screen.jpg"
                       }
                       className="card-img-top"
                       alt={article.title}

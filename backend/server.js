@@ -33,7 +33,15 @@ const userSchema = new mongoose.Schema({
     is_premium: { type: Boolean, default: false },
     plan: { type: String, default: '' },
     premiumExpiry: { type: Date },
-});
+    role: { type: String, enum: ['user', 'administrator', 'higher-admin'], default: 'user' }, // New role field
+  });
+  const checkRole = (roles) => (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    next();
+  };
+    
 
 const User = mongoose.model('User', userSchema);
 
@@ -60,6 +68,7 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401);
     }
 };
+
 
 // Routes
 app.post('/api/signup', async (req, res) => {
@@ -170,6 +179,48 @@ app.put('/api/update-premium-status', authenticateJWT, async (req, res) => {
         res.status(500).json({ error: 'Error updating premium status' });
     }
 });
+
+// Get all users (Administrator and Higher Admin)
+app.get('/api/admin/users', authenticateJWT, checkRole(['administrator', 'higher-admin']), async (req, res) => {
+    try {
+      const users = await User.find();
+      res.json(users);
+    } catch (err) {
+      res.status(500).json({ error: 'Error fetching users' });
+    }
+  });
+  
+  // Upgrade user to premium (Higher Admin)
+  app.put('/api/admin/upgrade-premium/:id', authenticateJWT, checkRole(['higher-admin']), async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      user.is_premium = true;
+      user.premiumExpiry = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+      await user.save();
+      res.json({ message: 'User upgraded to premium successfully' });
+    } catch (err) {
+      res.status(500).json({ error: 'Error upgrading user' });
+    }
+  });
+  
+  // Make user an admin (Higher Admin)
+  app.put('/api/admin/make-admin/:id', authenticateJWT, checkRole(['higher-admin']), async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      user.role = 'administrator';
+      await user.save();
+      res.json({ message: 'User upgraded to admin successfully' });
+    } catch (err) {
+      res.status(500).json({ error: 'Error upgrading user' });
+    }
+  });
+  
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

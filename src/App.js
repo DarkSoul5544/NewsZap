@@ -14,6 +14,7 @@ import HomePage from './components/HomePage';
 import "./App.css";
 import HeadLines from './components/HeadLines';
 import Profile from './components/Profile';
+import AdminPanel from './components/AdminPanel';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/premium" element={<PremiumPage />} />
           <Route path="/headlines" element={   <HeadLines category={category} handleCategoryChange={handleCategoryChange} country={country} handleCountryChange={handleCountryChange} />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" component={AdminPanel} />
         </Routes>
       </Router>
       <TopPage />
