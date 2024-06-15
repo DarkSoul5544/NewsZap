@@ -26,7 +26,7 @@ const SignupPage = () => {
     e.preventDefault();
     const apiUrl = window.location.hostname === "localhost"
     ? "http://localhost:5000/api"
-    : "https://newszap.vercel.app/api";
+    : "newszap-gg5a7nehv-vishals-projects-057462f3.vercel.app/api";
 
     axios
     .post("${apiUrl}/signup", formData)
