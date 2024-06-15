@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "frontend/index.html",
+        "src": "/frontend/index.html",
         "use": "@vercel/static-build",
         "config": {
           "distDir": "public"
@@ -10,22 +10,22 @@
       },
       {
        
-        "src": "backend/server.js",
+        "src": "/backend/server.js",
         "use": "@vercel/node",
         "config": {
-          "runtime": "nodejs14.x"
+          "runtime": "nodejs20.x"
         }
       }
     ],
     "routes": [
       {
-        "src": "frontend/*",
-        "dest": "frontend/index.html"
+        "src": "/frontend/*",
+        "dest": "/frontend/index.html"
       },
       {
         
-        "src": "backend/api/*",
-        "dest": "backend/server.js"
+        "src": "/backend/api/*",
+        "dest": "/backend/server.js"
       }
     ]
   }
