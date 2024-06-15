@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +87,8 @@ export default function AdminPanel() {
     }
   };
 
-  const createHigherAdmin = async () => {
+  const createHigherAdmin = async (event) => {
+    event.preventDefault();
     const token = localStorage.getItem('token');
     try {
       await axios.post(`http://localhost:5000/api/admin/create-higher-admin`, { email: newAdminEmail }, {
@@ -108,47 +110,58 @@ export default function AdminPanel() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h2>Admin Panel</h2>
-
-
+    <div className="container mt-5">
+      <h2 className="mb-4">Admin Panel</h2>
       {role === 'higher-admin' && (
-        <div>
-          <h3>Create Higher Admin</h3>
-          <form onSubmit={createHigherAdmin}>
-            <label>
-              Email:
-              <input type="email" value={newAdminEmail} onChange={handleNewAdminEmailChange} required />
-            </label>
-            <button type="submit">Create Higher Admin</button>
-          </form>
-          <hr />
-
-          <h3>All Users</h3>
-          <ul>
-            {users.map(user => (
-              <li key={user._id}>
-                {user.email} - {user.role}
-                {!user.is_premium && <button onClick={() => upgradeToPremium(user._id)}>Upgrade to Premium</button>}
-                {user.role !== 'administrator' && <button onClick={() => makeAdmin(user._id)}>Make Admin</button>}
-                <button onClick={() => deleteUser(user._id)}>Delete User</button>
-              </li>
-            ))}
-          </ul>
+        <div className="card mb-4">
+          <div className="card-body">
+            <h3>Create Higher Admin</h3>
+            <form onSubmit={createHigherAdmin}>
+              <div className="form-group">
+                <label>Email:</label>
+                <input
+                  type="email"
+                  value={newAdminEmail}
+                  onChange={handleNewAdminEmailChange}
+                  className="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" className="btn btn-primary">Create Higher Admin</button>
+            </form>
+          </div>
         </div>
       )}
 
-      {role === 'administrator' && (
-        <div>
-          <h3>Premium Users</h3>
-          <ul>
-            {users.filter(user => user.is_premium).map(user => (
-              <li key={user._id}>{user.email}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <h3>All Users</h3>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(user => (
+            <tr key={user._id}>
+              <td>{user.email}</td>
+              <td>{user.role}</td>
+              <td>
+                {!user.is_premium && role === 'higher-admin' && (
+                  <button className="btn btn-success btn-sm mr-2" onClick={() => upgradeToPremium(user._id)}>Upgrade to Premium</button>
+                )}
+                {role === 'higher-admin' && user.role !== 'administrator' && (
+                  <button className="btn btn-warning btn-sm mr-2" onClick={() => makeAdmin(user._id)}>Make Admin</button>
+                )}
+                {role === 'higher-admin' && (
+                  <button className="btn btn-danger btn-sm" onClick={() => deleteUser(user._id)}>Delete User</button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
-

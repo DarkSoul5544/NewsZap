@@ -119,6 +119,25 @@ app.get('/api/profile', authenticateJWT, async (req, res) => {
     }
 });
 
+app.put('/api/profile', authenticateJWT, async (req, res) => {
+    try {
+        const { name, lastName, email, phone, image } = req.body;
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        user.name = name;
+        user.lastName = lastName;
+        user.email = email;
+        user.phone = phone;
+        user.image = image;
+        await user.save();
+        res.json({ message: 'Profile updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Error updating profile' });
+    }
+});
+
 const razorpay = new Razorpay({
     key_id: 'rzp_live_7QHhPR6riCiy7S',
     key_secret: 'fPx9lgbyfePrfVQWhQ4qbg7b',
@@ -220,6 +239,7 @@ app.get('/api/admin/users', authenticateJWT, checkRole(['administrator', 'higher
       res.status(500).json({ error: 'Error upgrading user' });
     }
   });
+  
   
 
 app.listen(PORT, () => {
