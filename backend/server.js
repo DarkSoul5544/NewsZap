@@ -6,13 +6,15 @@ const cors = require('cors');
 const Razorpay = require('razorpay');
 const app = express();
 const PORT = process.env.PORT || 5000;
+const dotenv = require('dotenv');
 
+dotenv.config({ path: '../.env' });
 // Middleware
 app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/newszap', {
+mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
@@ -57,7 +59,7 @@ const Payment = mongoose.model('Payment', new mongoose.Schema({
 const authenticateJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (token) {
-        jwt.verify(token, 'fRVBtWg2En', (err, user) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err) {
                 return res.sendStatus(403);
             }
@@ -139,12 +141,12 @@ app.put('/api/profile', authenticateJWT, async (req, res) => {
 });
 
 const razorpay = new Razorpay({
-    key_id: 'rzp_live_7QHhPR6riCiy7S',
-    key_secret: 'fPx9lgbyfePrfVQWhQ4qbg7b',
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 app.get('/api/get-razorpay-key', (req, res) => {
-    res.json({ key: 'rzp_live_7QHhPR6riCiy7S' });
+    res.json({ key: process.env.RAZORPAY_KEY_ID});
 });
 
 app.post('/api/create-order', async (req, res) => {
