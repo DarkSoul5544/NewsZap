@@ -24,8 +24,12 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const apiUrl = window.location.hostname === "localhost"
+    ? "http://localhost:5000/api"
+    : "https://newszap.vercel.app/api";
+
     axios
-    .post("http://localhost:5000/api/signup", formData)
+    .post("${apiUrl}/signup", formData)
     .then((response) => {
         setSuccess(true);
         setError(null);
