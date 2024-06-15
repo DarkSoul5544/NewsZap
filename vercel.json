@@ -19,12 +19,12 @@
     ],
     "routes": [
       {
-        "src": "/*",
-        "dest": "index.html"
+        "src": "frontend/*",
+        "dest": "frontend/index.html"
       },
       {
         
-        "src": "/api/*",
+        "src": "backend/api/*",
         "dest": "backend/server.js"
       }
     ]
