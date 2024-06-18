@@ -5,7 +5,6 @@ export default function Help() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Add code here to submit the question to a server or store it locally
     console.log(`Submitted question: ${question}`);
     setQuestion("");
   };
