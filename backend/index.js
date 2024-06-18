@@ -56,6 +56,16 @@ const Payment = mongoose.model('Payment', new mongoose.Schema({
     plan: String,
 }));
 
+const questionSchema = new mongoose.Schema({
+    question: { type: String, required: true },
+    answer: { type: String },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    createdAt: { type: Date, default: Date.now },
+});
+
+const Question = mongoose.model('Question', questionSchema);
+
+
 // JWT middleware
 const authenticateJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
@@ -253,6 +263,45 @@ app.post('/api/admin/create-higher-admin', authenticateJWT, checkRole(['higher-a
         res.status(500).json({ error: 'Error creating higher admin' });
     }
 });
+
+// Get all questions with answers
+app.get('/api/questions', async (req, res) => {
+    try {
+        const questions = await Question.find().populate('user', 'name email');
+        res.json(questions);
+    } catch (err) {
+        res.status(500).json({ error: 'Error fetching questions' });
+    }
+});
+
+// Post a new question
+app.post('/api/questions', authenticateJWT, async (req, res) => {
+    try {
+        const { question } = req.body;
+        const newQuestion = new Question({ question, user: req.user.id });
+        await newQuestion.save();
+        res.status(201).json(newQuestion);
+    } catch (err) {
+        res.status(500).json({ error: 'Error posting question' });
+    }
+});
+
+// Answer a question (Admin only)
+app.put('/api/questions/:id', authenticateJWT, checkRole(['administrator', 'higher-admin']), async (req, res) => {
+    try {
+        const { answer } = req.body;
+        const question = await Question.findById(req.params.id);
+        if (!question) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+        question.answer = answer;
+        await question.save();
+        res.json({ message: 'Answer updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Error updating answer' });
+    }
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
