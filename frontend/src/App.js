@@ -44,7 +44,7 @@ function App() {
           <Route path="/premium" element={<PremiumPage />} />
           <Route path="/headlines" element={   <HeadLines category={category} handleCategoryChange={handleCategoryChange} country={country} handleCountryChange={handleCountryChange} />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" component={AdminPanel} />
+          <Route path="/adminpanel" element={<AdminPanel />}/>
         </Routes>
       </Router>
       <TopPage />
