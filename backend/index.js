@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -74,7 +73,6 @@ const authenticateJWT = (req, res, next) => {
 };
 
 // Routes
-
 app.post('/api/signup', async (req, res) => {
     try {
         const { name, lastName, email, password, category, phone, image } = req.body;
@@ -98,19 +96,16 @@ app.post('/api/login', async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-
-        const token = jwt.sign({ id: user._id, email: user.email }, 'fRVBtWg2En', { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     } catch (err) {
         res.status(500).json({ error: 'Error logging in' });
     }
 });
-
 
 app.get('/api/profile', authenticateJWT, async (req, res) => {
     try {
