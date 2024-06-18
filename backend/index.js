@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 const Razorpay = require('razorpay');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-
+app.use(cors());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URL, {
