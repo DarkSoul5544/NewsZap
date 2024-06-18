@@ -13,7 +13,11 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+// Enable CORS
+app.use(cors({
+    origin: ['https://newszap.vercel.app'], 
+    credentials: true, 
+  }));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URL, {
