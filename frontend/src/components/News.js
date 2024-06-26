@@ -6,13 +6,14 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
+  const [language, setLanguage] = useState("en");
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Set loading to true while fetching data
       try {
         const response = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_43753721e4d25aa5f5c3d459e28013a9e3c14&category=${category}&country=${country}&language=en&`
+          `https://newsdata.io/api/1/news?apikey=pub_43753721e4d25aa5f5c3d459e28013a9e3c14&category=${category}&country=${country}&language=${language}&`
         );
         setArticles(response.data.results); // Update articles state with fetched data
       } catch (error) {
@@ -22,7 +23,7 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
     };
 
     fetchData(); // Call fetchData function when category or country changes
-  }, [category, country]);
+  }, [category, country, language]);
 
   useEffect(() => {
     const token = localStorage.getItem('token'); // Get token from localStorage
@@ -58,12 +59,216 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
     }
   };
 
+  const handleLanguageChangePremium = (selectedLanguage) => {
+    if (isPremium) {
+      setLanguage(selectedLanguage);
+    } else {
+      alert('Please purchase a premium subscription to change the language.');
+    }
+  };
+
   return (
     <div className="">
       <div  id="categories">
-        <div className="container mt-4" style={{ flex: 1 }}>
+        <div className="container mt-4" >
           <ul>
-            <div className="dropdown d-flex justify-content-end">
+          <div className="container mt-4 d-flex justify-content-end">
+          <div className="dropdown mr-2">
+               <button
+                className="btn btn-dark dropdown-toggle"
+                type="button"
+                id="languageDropdownButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Language
+              </button>
+              <ul
+                className="dropdown-menu bg-secondary"
+                aria-labelledby="languageDropdownButton"
+                id="languageList"
+                style={{
+                  maxHeight: "400px",
+                  overflowY: "auto",
+                  msOverflowStyle: "none",
+                  scrollbarWidth: "none",
+                  "&::WebkitScrollbar": {
+                    display: "none",
+                  },
+                }}
+              >
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("hi")}
+                  >
+                    Hindi
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("sq")}
+                  >
+                    Albanian
+                  </button>
+                  <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("am")}
+                  >
+                    Amharic
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("ar")}
+                  >
+                    Arabic
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("hy")}
+                  >
+                    Armenian
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("as")}
+                  >
+                    Assamese
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("az")}
+                  >
+                    Azerbaijani
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("bn")}
+                  >
+                    Bengali
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("zh")}
+                  >
+                    Chinese
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("en")}
+                  >
+                    English
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("pi")}
+                  >
+                    Filipino
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("fr")}
+                  >
+                    French
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("gu")}
+                  >
+                    Gujarati
+                  </button>
+                </li>
+                 <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("kn")}
+                  >
+                    Kannada
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("mr")}
+                  >
+                    Marathi
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("ne")}
+                  >
+                    Nepali
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("pa")}
+                  >
+                    Punjabi
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("ru")}
+                  >
+                    Russian
+                  </button>
+                </li> 
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("sd")}
+                  >
+                    Sindhi
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("ta")}
+                  >
+                    Tamil
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleLanguageChangePremium("te")}
+                  >
+                    Telugu
+                  </button>
+                </li>
+                </li>
+              </ul>
+            </div>
+            <div className="dropdown  d-flex justify-content-end">
               <button
                 className="btn btn-dark dropdown-toggle"
                 type="button"
@@ -553,8 +758,10 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
               </li>
               </ul>
             </div>
+            </div>
           </ul>
-          {/* Display news articles */}
+
+         
           <div className="row">
             {loading ? (
               <div
