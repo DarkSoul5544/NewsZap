@@ -2,140 +2,179 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "./uploads/loading.gif";
 
-const HeadLines = ({ category, handleCategoryChange, country, handleCountryChange }) => {
-  // State to store articles fetched from the API
-  const [articles, setArticles] = useState([]);
-  // State to manage loading state while fetching articles
-  const [loading, setLoading] = useState(false);
-  // State to track if the user is a premium user
-  const [isPremium, setIsPremium] = useState(false);
 
-  // Function to fetch articles from the API
+const HeadLines = () => {
+  const [articles, setArticles] = useState([]);
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("general");
+  const [country, setCountry] = useState("in");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Set loading to true while fetching data
+      setLoading(true);
       try {
-        // Make API request to fetch news articles based on category and country
-        const response = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_43753d97dfa8a923b5118f631dc6009d2e2e0&category=${category}&country=${country}&language=en&`
+        const respo = await axios.get(
+          `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=c5e36d2b53594f76843004cf841cecbe&page=${page}&pageSize=6`
         );
-        setArticles(response.data.results); // Update articles state with fetched data
+        setArticles(respo.data.articles);
       } catch (error) {
         console.error("Error fetching news: ", error);
       }
-      setLoading(false); // Set loading back to false after fetching data
+      setLoading(false);
     };
 
-    fetchData(); // Call fetchData function when category or country changes
-  }, [category, country]);
+    fetchData();
+  }, [category, page, country]);
 
-  // Function to fetch user profile when component mounts
-  useEffect(() => {
-    const token = localStorage.getItem('token'); // Get token from localStorage
-    if (token) {
-      fetchUserProfile(token); // Call function to fetch user profile if token exists
-    }
-  }, []);
-
-  // Function to fetch user profile from the backend
-  const fetchUserProfile = async (token) => {
-    try {
-      // Make API request to fetch user profile using the token
-      const response = await axios.get('http://localhost:5000/api/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass token in the request headers
-        },
-      });
-      setIsPremium(response.data.is_premium); // Update isPremium state with user's premium status
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
+  const handlePrevClick = () => {
+    if (page > 1) {
+      setPage(page - 1);
     }
   };
 
-  // Function to handle image loading error by setting a default image
+  const handleNextClick = () => {
+    setPage(page + 1);
+  };
+
+  const handleCategoryChange = (newCategory) => {
+    setCategory(newCategory);
+    setPage(1);
+  };
+  const handleCountryChange = (newCountry) => {
+    setCountry(newCountry);
+    setPage(1);
+  };
+
   const handleImageError = (event) => {
     event.target.src =
-      "https://static9.depositphotos.com/1011646/1238/i/450/depositphotos_12382530-stock-photo-breaking-news-screen.jpg";
-  };
-
-  // Function to handle country change for premium users
-  const handleCountryChangePremium = (selectedCountry) => {
-    if (isPremium) {
-      // If user is premium, allow country change
-      handleCountryChange(selectedCountry);
-    } else {
-      // If user is not premium, show an alert to purchase premium
-      alert('Please purchase a premium subscription to change the country.');
-      // You can also redirect the user to the premium subscription page here
-    }
+      "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480";
   };
 
   return (
-    <div className="">
-      <div style={{ display: "grid" }} id="categories">
-        <div className="container mt-4" style={{ flex: 1 }}>
-          <ul>
-            <div className="dropdown d-flex justify-content-end">
-              <button
-                className="btn btn-dark dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Country
-              </button>
-              <ul
-                className="dropdown-menu bg-secondary"
-                aria-labelledby="dropdownMenuButton"
-                id="countryList"
-                style={{
-                  maxHeight: "400px",
-                  overflowY: "auto",
-                  msOverflowStyle: "none",
-                  scrollbarWidth: "none",
-                  "&::WebkitScrollbar": {
-                    display: "none",
-                  },
-                }}
-              >
-                {/* Render country buttons based on premium status */}
-                <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => handleCountryChangePremium("af")}
-                  >
-                    Afghanistan
-                  </button>
-                </li>
-                <li>
+    <div className="" style={{ backgroundImage:`linear-gradient(90deg, rgba(167,106,231,1) 9%, rgba(65,36,214,0.6502976190476191) 82%)` }}>
+<div className="" style={{ display: "grid", gridTemplateColumns: "150px 1fr" }}>
+  <div className="nav-container mx-3 my-3" >
+      <ul className="list-unstyled my-5 mx-2 fs-1">
+    <li className="nav-item">
+      <button
+        type="button" id="newsbtn"
+        className="btn"
+        onClick={() => handleCategoryChange("general")}
+      >
+        General
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("entertainment")}
+      >
+        Entertainment
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("business")}
+      >
+        Business
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("health")}
+      >
+        Health
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("science")}
+      >
+        Science
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("sports")}
+      >
+        Sports
+      </button>
+    </li>
+    <li className="nav-item">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => handleCategoryChange("technology")}
+      >
+        Technology
+      </button>
+    </li>
+  </ul>
+  </div>
+  <div className="container mt-4" style={{ flex: 1 }}>
+  <ul>
+          <div className="dropdown d-flex justify-content-end">
+            <button
+              className="btn btn-dark dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Country
+            </button>
+            <ul
+              className="dropdown-menu bg-secondary"
+              aria-labelledby="dropdownMenuButton"
+              id="countryList"
+              style={{
+                maxHeight: "400px",
+                overflowY: "auto",
+                msOverflowStyle: "none", // IE and Edge
+                scrollbarWidth: "none", // Firefox
+                "&::WebkitScrollbar": {
+                  display: "none", // Chrome, Safari, and Opera
+                },
+              }}
+            >
+              <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("af")}
+                  onClick={() => handleCountryChange("ae")}
                 >
-                  Afghanistan
+                  United Arab Emirates
                 </button>
               </li>
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("al")}
+                  onClick={() => handleCountryChange("ar")}
                 >
-                Albania
+                  Argentina
                 </button>
               </li>
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("dz")}
+                  onClick={() => handleCountryChange("at")}
                 >
-                  Algeria
+                  Austria
                 </button>
               </li>
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("au")}
+                  onClick={() => handleCountryChange("au")}
                 >
                   Australia
                 </button>
@@ -143,7 +182,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("be")}
+                  onClick={() => handleCountryChange("be")}
                 >
                   Belgium
                 </button>
@@ -151,7 +190,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("bg")}
+                  onClick={() => handleCountryChange("bg")}
                 >
                   Bulgaria
                 </button>
@@ -159,7 +198,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("br")}
+                  onClick={() => handleCountryChange("br")}
                 >
                   Brazil
                 </button>
@@ -167,7 +206,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ca")}
+                  onClick={() => handleCountryChange("ca")}
                 >
                   Canada
                 </button>
@@ -175,7 +214,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ch")}
+                  onClick={() => handleCountryChange("ch")}
                 >
                   Switzerland
                 </button>
@@ -183,7 +222,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("cn")}
+                  onClick={() => handleCountryChange("cn")}
                 >
                   China
                 </button>
@@ -191,7 +230,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("co")}
+                  onClick={() => handleCountryChange("co")}
                 >
                   Colombia
                 </button>
@@ -199,7 +238,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("cu")}
+                  onClick={() => handleCountryChange("cu")}
                 >
                   Cuba
                 </button>
@@ -207,7 +246,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("cz")}
+                  onClick={() => handleCountryChange("cz")}
                 >
                   Czech Republic
                 </button>
@@ -215,7 +254,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("de")}
+                  onClick={() => handleCountryChange("de")}
                 >
                   Germany
                 </button>
@@ -223,7 +262,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("eg")}
+                  onClick={() => handleCountryChange("eg")}
                 >
                   Egypt
                 </button>
@@ -231,7 +270,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("fr")}
+                  onClick={() => handleCountryChange("fr")}
                 >
                   France
                 </button>
@@ -239,7 +278,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("gb")}
+                  onClick={() => handleCountryChange("gb")}
                 >
                   United Kingdom
                 </button>
@@ -247,7 +286,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("gr")}
+                  onClick={() => handleCountryChange("gr")}
                 >
                   Greece
                 </button>
@@ -255,7 +294,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("hk")}
+                  onClick={() => handleCountryChange("hk")}
                 >
                   Hong Kong
                 </button>
@@ -263,7 +302,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("hu")}
+                  onClick={() => handleCountryChange("hu")}
                 >
                   Hungary
                 </button>
@@ -271,7 +310,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("id")}
+                  onClick={() => handleCountryChange("id")}
                 >
                   Indonesia
                 </button>
@@ -279,7 +318,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ie")}
+                  onClick={() => handleCountryChange("ie")}
                 >
                   Ireland
                 </button>
@@ -287,7 +326,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("il")}
+                  onClick={() => handleCountryChange("il")}
                 >
                   Israel
                 </button>
@@ -295,7 +334,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("in")}
+                  onClick={() => handleCountryChange("in")}
                 >
                   India
                 </button>
@@ -303,7 +342,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("it")}
+                  onClick={() => handleCountryChange("it")}
                 >
                   Italy
                 </button>
@@ -311,7 +350,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("jp")}
+                  onClick={() => handleCountryChange("jp")}
                 >
                   Japan
                 </button>
@@ -319,7 +358,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("kr")}
+                  onClick={() => handleCountryChange("kr")}
                 >
                   South Korea
                 </button>
@@ -327,7 +366,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("lt")}
+                  onClick={() => handleCountryChange("lt")}
                 >
                   Lithuania
                 </button>
@@ -335,7 +374,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("lu")}
+                  onClick={() => handleCountryChange("lu")}
                 >
                   Luxembourg
                 </button>
@@ -343,7 +382,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("lv")}
+                  onClick={() => handleCountryChange("lv")}
                 >
                   Latvia
                 </button>
@@ -351,7 +390,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ma")}
+                  onClick={() => handleCountryChange("ma")}
                 >
                   Morocco
                 </button>
@@ -359,7 +398,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("mx")}
+                  onClick={() => handleCountryChange("mx")}
                 >
                   Mexico
                 </button>
@@ -367,7 +406,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("my")}
+                  onClick={() => handleCountryChange("my")}
                 >
                   Malaysia
                 </button>
@@ -375,7 +414,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ng")}
+                  onClick={() => handleCountryChange("ng")}
                 >
                   Nigeria
                 </button>
@@ -383,7 +422,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("nl")}
+                  onClick={() => handleCountryChange("nl")}
                 >
                   Netherlands
                 </button>
@@ -391,7 +430,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("no")}
+                  onClick={() => handleCountryChange("no")}
                 >
                   Norway
                 </button>
@@ -399,7 +438,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("nz")}
+                  onClick={() => handleCountryChange("nz")}
                 >
                   New Zealand
                 </button>
@@ -407,7 +446,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ph")}
+                  onClick={() => handleCountryChange("ph")}
                 >
                   Philippines
                 </button>
@@ -415,7 +454,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("pl")}
+                  onClick={() => handleCountryChange("pl")}
                 >
                   Poland
                 </button>
@@ -423,7 +462,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("pt")}
+                  onClick={() => handleCountryChange("pt")}
                 >
                   Portugal
                 </button>
@@ -431,7 +470,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ro")}
+                  onClick={() => handleCountryChange("ro")}
                 >
                   Romania
                 </button>
@@ -439,7 +478,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("rs")}
+                  onClick={() => handleCountryChange("rs")}
                 >
                   Serbia
                 </button>
@@ -447,7 +486,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ru")}
+                  onClick={() => handleCountryChange("ru")}
                 >
                   Russia
                 </button>
@@ -455,7 +494,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("sa")}
+                  onClick={() => handleCountryChange("sa")}
                 >
                   Saudi Arabia
                 </button>
@@ -463,7 +502,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("se")}
+                  onClick={() => handleCountryChange("se")}
                 >
                   Sweden
                 </button>
@@ -471,7 +510,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("sg")}
+                  onClick={() => handleCountryChange("sg")}
                 >
                   Singapore
                 </button>
@@ -479,7 +518,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("si")}
+                  onClick={() => handleCountryChange("si")}
                 >
                   Slovenia
                 </button>
@@ -487,7 +526,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("sk")}
+                  onClick={() => handleCountryChange("sk")}
                 >
                   Slovakia
                 </button>
@@ -495,7 +534,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("es")}
+                  onClick={() => handleCountryChange("es")}
                 >
                   Spain
                 </button>
@@ -503,7 +542,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("sv")}
+                  onClick={() => handleCountryChange("sv")}
                 >
                   Sweden
                 </button>
@@ -511,7 +550,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("th")}
+                  onClick={() => handleCountryChange("th")}
                 >
                   Thailand
                 </button>
@@ -519,7 +558,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("tr")}
+                  onClick={() => handleCountryChange("tr")}
                 >
                   Turkey
                 </button>
@@ -527,7 +566,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("tw")}
+                  onClick={() => handleCountryChange("tw")}
                 >
                   Taiwan
                 </button>
@@ -535,7 +574,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ua")}
+                  onClick={() => handleCountryChange("ua")}
                 >
                   Ukraine
                 </button>
@@ -543,7 +582,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("us")}
+                  onClick={() => handleCountryChange("us")}
                 >
                   United States
                 </button>
@@ -551,7 +590,7 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("ve")}
+                  onClick={() => handleCountryChange("ve")}
                 >
                   Venezuela
                 </button>
@@ -559,75 +598,87 @@ const HeadLines = ({ category, handleCategoryChange, country, handleCountryChang
               <li>
                 <button
                   className="dropdown-item"
-                  onClick={() => handleCountryChangePremium("za")}
+                  onClick={() => handleCountryChange("za")}
                 >
                   South Africa
                 </button>
               </li>
-              </ul>
+            </ul>
+          </div>
+        </ul>
+        <div className="row">
+          {loading ? (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "80vh" }}
+            >
+              <img src={Loading} alt="loading" />
             </div>
-          </ul>
-          {/* Display news articles */}
-          <div className="row">
-            {loading ? (
-              // Show loading spinner while fetching data
-              <div
-                className="d-flex justify-content-center align-items-center"
-                style={{ height: "80vh" }}
-              >
-                <img src={Loading} alt="loading" />
-              </div>
-            ) : (
-              // Render news articles if loading is false
-              articles.map((article, index) => (
-                <div className="col-auto mx-auto my-4" key={index}>
-                  <div
-                    className="card" id="newscard"
-                    style={{ width: "21rem", height: "30rem" }}
-                  >
-                    <img
-                      src={
-                        article.image_url || article.video_url ||
-                        "https://static9.depositphotos.com/1011646/1238/i/450/depositphotos_12382530-stock-photo-breaking-news-screen.jpg"
-                      }
-                      className="card-img-top"
-                      alt={article.title}
-                      onError={handleImageError}
-                      style={{ height: "13rem", transition: "transform .3s ease-in-out" }}
-                    />
-                    <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">
-                        {article.title
-                          ? article.title.length > 90
-                            ? article.title.slice(0, 90) + "..."
-                            : article.title
-                          : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
-                      </h5>
-                      <p className="card-text">
-                        {article.description
-                          ? article.description.length > 90
-                            ? article.description.slice(0, 90) + "..."
-                            : article.description
-                          : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
-                      </p>
-                      <a
-                        href={article.link}
-                        rel="noopener noreferrer"
-                        className="btn btn-primary mt-auto"
-                      >
-                        Read More
-                      </a>
-                    </div>
+          ) : (
+            articles.map((article, index) => (
+              <div className="col-md-3 mx-5" key={index}>
+                <div
+                  className="card mb-4" id="newscard"
+                  style={{ width: "25rem", height: "30rem" , backgroundImage:`linear-gradient(90deg, rgba(205,174,238,1) 9%, rgba(162,148,233,0.6502976190476191) 82%)` }}
+                  
+                >
+                  <img
+                    src={
+                      
+                      article.urlToImage ||
+                      "https://images.news18.com/ibnlive/uploads/2024/04/oneplus-11-india-price-cut-2024-2024-04-5de3815c40fd693eba7e44b9214c70f0.jpg?impolicy=website&width=640&height=480"
+                    }
+                    className="card-img-top "
+                    alt={article.title}
+                    onError={handleImageError}
+                    style={{ height: "13rem", transition: "transform .3s ease-in-out" }}
+                    
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{article.title? article.title.length > 130
+                          ? article.title.slice(0, 130) + "..."
+                          : article.title
+                        : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}</h5>
+                    <p className="card-text">
+                      {article.description
+                        ? article.description.length > 130
+                          ? article.description.slice(0, 130) + "..."
+                          : article.description
+                        : "Dive deeper into the story! Get the full scoop on breaking news and trending topics. Click to stay informed."}
+                    </p>
+                    <a
+                      href={article.url}
+                       rel="noopener noreferrer"
+                      className="btn btn-primary mt-auto"
+                    >
+                      Read More
+                    </a>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-          <div className="d-flex justify-content-between my-4">
-            {/* Buttons for pagination (if needed) */}
-          </div>
+              </div>
+            ))
+          )}
+        </div>
+        <div className="d-flex justify-content-between my-4 ">
+          <button
+            type="button"
+            className="btn btn-dark"
+            onClick={handlePrevClick}
+            disabled={page === 1}
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            className="btn btn-dark"
+            onClick={handleNextClick}
+            disabled={articles.length < 6}
+          >
+            Next
+          </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

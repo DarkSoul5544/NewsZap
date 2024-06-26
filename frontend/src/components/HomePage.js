@@ -16,10 +16,10 @@ export default function HomePage() {
 NewsZap is a top news website that offers the latest news and updates from around the world. We are committed to providing our readers with accurate, timely, and unbiased news coverage.</p>
 </div>
 <div className="btns">
-<a href='/headlines' className='btn btn-primary' > Explore Now </a>
+<a href='/news' className='btn btn-primary' > Explore Now </a>
 </div>
 <div className="btns">
-{/* <a href='/news' className='btn btn-primary my-4' > HeadLines </a> */}
+{/* <a href='/headlines' className='btn btn-primary my-4' > HeadLines </a> */}
 </div>
 </div>
 </div>

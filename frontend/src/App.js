@@ -35,14 +35,14 @@ function App() {
       <Router>
         <Routes>
         <Route path="/" element={ <HomePage />} />
-          <Route path="/news" element={<News />} />
+          <Route path="/headlines" element={<HeadLines />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/Help" element={<Help />} />
           <Route path="/premium" element={<PremiumPage />} />
-          <Route path="/headlines" element={   <HeadLines category={category} handleCategoryChange={handleCategoryChange} country={country} handleCountryChange={handleCountryChange} />} />
+          <Route path="/news" element={   <News category={category} handleCategoryChange={handleCategoryChange} country={country} handleCountryChange={handleCountryChange} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/adminpanel" element={<AdminPanel />}/>
         </Routes>

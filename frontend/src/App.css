@@ -677,14 +677,25 @@ h1 {
       animation: link-appear calc(var(--duration) * 1.5) var(--ease) forwards;
     }
 
-     @for $i from 1 through 4 {
-      li:nth-child(#{$i}) {
-        &:after,
-        a {
-          animation-delay: calc((var(--duration) / 2) * #{$i} * 0.125);
-        }
-      }
-    }
+    li:nth-child(1):after,
+li:nth-child(1) a {
+  animation-delay: calc((var(--duration) / 2) * 0.125);
+}
+
+li:nth-child(2):after,
+li:nth-child(2) a {
+  animation-delay: calc((var(--duration) / 2) * 0.25);
+}
+
+li:nth-child(3):after,
+li:nth-child(3) a {
+  animation-delay: calc((var(--duration) / 2) * 0.375);
+}
+
+li:nth-child(4):after,
+li:nth-child(4) a {
+  animation-delay: calc((var(--duration) / 2) * 0.5);
+}
   }
 }
 
