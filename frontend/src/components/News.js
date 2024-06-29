@@ -112,30 +112,7 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
                   >
                     Albanian
                   </button>
-                  <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => handleLanguageChangePremium("am")}
-                  >
-                    Amharic
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => handleLanguageChangePremium("ar")}
-                  >
-                    Arabic
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => handleLanguageChangePremium("hy")}
-                  >
-                    Armenian
-                  </button>
-                </li>
+  
                 <li>
                   <button
                     className="dropdown-item"
@@ -144,14 +121,7 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
                     Assamese
                   </button>
                 </li>
-                <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => handleLanguageChangePremium("az")}
-                  >
-                    Azerbaijani
-                  </button>
-                </li>
+                
                 <li>
                   <button
                     className="dropdown-item"
@@ -241,14 +211,7 @@ const News = ({ category, handleCategoryChange, country, handleCountryChange }) 
                     Russian
                   </button>
                 </li> 
-                <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => handleLanguageChangePremium("sd")}
-                  >
-                    Sindhi
-                  </button>
-                </li>
+               
                 <li>
                   <button
                     className="dropdown-item"

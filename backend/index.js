@@ -60,6 +60,8 @@ const questionSchema = new mongoose.Schema({
     question: { type: String, required: true },
     answer: { type: String },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    senderName: { type: String, required: true },
+    senderProfilePhoto: { type: String },
     createdAt: { type: Date, default: Date.now },
 });
 
@@ -264,30 +266,35 @@ app.post('/api/admin/create-higher-admin', authenticateJWT, checkRole(['higher-a
     }
 });
 
-// Get all questions with answers
+// Add a question
+app.post('/api/questions', authenticateJWT, async (req, res) => {
+    try {
+        const { question, senderName, senderProfilePhoto } = req.body;
+        const newQuestion = new Question({
+            question,
+            senderName,
+            senderProfilePhoto,
+            user: req.user.id,
+        });
+        await newQuestion.save();
+        res.status(201).json({ message: 'Question submitted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Error submitting question' });
+    }
+});
+
+// Get all questions
 app.get('/api/questions', async (req, res) => {
     try {
-        const questions = await Question.find().populate('user', 'name email');
+        const questions = await Question.find().populate('user', 'name image');
         res.json(questions);
     } catch (err) {
         res.status(500).json({ error: 'Error fetching questions' });
     }
 });
 
-// Post a new question
-app.post('/api/questions', authenticateJWT, async (req, res) => {
-    try {
-        const { question } = req.body;
-        const newQuestion = new Question({ question, user: req.user.id });
-        await newQuestion.save();
-        res.status(201).json(newQuestion);
-    } catch (err) {
-        res.status(500).json({ error: 'Error posting question' });
-    }
-});
-
-// Answer a question (Admin only)
-app.put('/api/questions/:id', authenticateJWT, checkRole(['administrator', 'higher-admin']), async (req, res) => {
+// Update a question with an answer
+app.put('/api/questions/:id', authenticateJWT, async (req, res) => {
     try {
         const { answer } = req.body;
         const question = await Question.findById(req.params.id);
@@ -296,12 +303,11 @@ app.put('/api/questions/:id', authenticateJWT, checkRole(['administrator', 'high
         }
         question.answer = answer;
         await question.save();
-        res.json({ message: 'Answer updated successfully' });
+        res.json({ message: 'Question answered successfully' });
     } catch (err) {
-        res.status(500).json({ error: 'Error updating answer' });
+        res.status(500).json({ error: 'Error answering question' });
     }
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

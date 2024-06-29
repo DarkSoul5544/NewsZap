@@ -4,11 +4,35 @@ export default function Help() {
   const [question, setQuestion] = useState("");
   const [questions, setQuestions] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userProfilePhoto, setUserProfilePhoto] = useState("");
 
   useEffect(() => {
+    fetchUserProfile();
     fetchQuestions();
-    checkIfAdmin();
   }, []);
+
+  const fetchUserProfile = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const response = await fetch('http://localhost:5000/api/profile', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setIsAdmin(data.role === 'administrator' || data.role === 'higher-admin');
+      setUserId(data._id);
+      setUserName(data.name);
+      setUserProfilePhoto(data.image);  // Ensure that this field is returned by the profile endpoint
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
 
   const fetchQuestions = async () => {
     try {
@@ -23,24 +47,6 @@ export default function Help() {
     }
   };
 
-  const checkIfAdmin = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-
-    try {
-      const response = await fetch('http://localhost:5000/api/profile', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setIsAdmin(data.role === 'administrator' || data.role === 'higher-admin');
-    } catch (error) {
-      console.error('Error checking admin status:', error);
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem('token');
@@ -51,7 +57,12 @@ export default function Help() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ question })
+        body: JSON.stringify({
+          question,
+          senderId: userId,
+          senderName: userName,
+          senderProfilePhoto: userProfilePhoto
+        })
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -86,6 +97,8 @@ export default function Help() {
     }
   };
 
+  const filteredQuestions = isAdmin ? questions : questions.filter(q => q.user._id === userId);
+
   return (
     <div className="container mt-5">
       <h1>Help</h1>
@@ -110,7 +123,7 @@ export default function Help() {
         concerns you may have.
       </p>
       <form onSubmit={handleSubmit}>
-        <div className="form-group ">
+        <div className="form-group">
           <label htmlFor="question">Ask a question:</label>
           <textarea
             className="form-control"
@@ -127,9 +140,19 @@ export default function Help() {
       </form>
       <h3>Questions and Answers</h3>
       <ul className="list-group">
-        {questions.map((q) => (
+        {filteredQuestions.map((q) => (
           <li key={q._id} className="list-group-item">
             <h5>{q.question}</h5>
+            <p>
+              <img
+                src={q.senderProfilePhoto}
+                alt={`${q.senderName}'s profile`}
+                width="30"
+                height="30"
+                className="rounded-circle"
+              /> 
+              {q.senderName}
+            </p>
             <p>{q.answer || "No answer yet."}</p>
             {isAdmin && (
               <form onSubmit={(event) => handleAnswerSubmit(event, q._id, event.target.answer.value)}>
